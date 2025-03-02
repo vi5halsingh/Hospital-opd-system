@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="/staff/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="/api/staff/profile">Profile</a></li>
+                <li><a href="/api/staff/appointments">Appointments</a></li>
+                <li><a href="/api/staff/patient-records">Patient Records</a></li>
+                <li><a href="/api/staff/queue-status">Queue Status</a></li>
+                <li id="logout">Log Out</li>
+            </ul>
+        </div>
+        
+        <div class="content-area">
+            <div class="queue-status-panel">
+                <h2>Current Queue Status</h2>
+                <div id="queueList">
+                    <!-- Queue items will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io();
+    const doctorId = "<%= doctor._id %>";
+    
+    socket.on(`queue-update-${doctorId}`, (data) => {
+        updateQueueDisplay(data.queue);
+    });
+    
+    function updateQueueDisplay(queue) {
+        const queueList = document.getElementById('queueList');
+        queueList.innerHTML = queue.map((patient, index) => `
+            <div class="queue-item ${index === 0 ? 'current' : ''}">
+                <span class="queue-number">${index + 1}</span>
+                <span class="patient-name">${patient.fullname}</span>
+                <span class="status">${index === 0 ? 'Currently Consulting' : 'Waiting'}</span>
+            </div>
+        `).join('');
+    }
+    </script>
+</body>
+</html> 

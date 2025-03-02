@@ -1,0 +1,59 @@
+
+ 
+
+
+.main-dashboard .menu {
+    position: sticky;
+    top: 0;
+    border-radius: 4px;
+    /* border: 2px solid; */
+    /* min-width: 10%; */
+    /* max-width: 10%; */
+    min-width: 200px !important;
+    backdrop-filter: blur(14px);
+    box-shadow: rgba(17, 17, 26, 0.1) 4px 0px 10px;
+    /* position: absolute; */
+    height: 100vh;
+    /* position: a; */
+    background-color: #ffffff23;
+}
+
+#list9302 ul {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 14px;
+}
+#list9302 ul li{
+    padding: 10px;
+    border-radius: 5px;
+    transition: all .25s ease-in-out ;
+}
+#list9302 ul li:hover{
+
+background-color: rgba(0, 0, 0, 0.155);
+padding: 10px;
+
+}
+.profile9302 {
+    /* position: fixed; */
+    width: 100%;
+    display: flex;
+    /* padding: 5px; */
+    text-align: center;
+    /* flex-direction: column; */
+    align-items: center;
+    height: 40px;
+    justify-content: center;
+    /* border: 2px solid; */
+    /* padding: 10px; */
+    /* border-radius: 500px; */
+}
+
+.profile9302 i {
+    margin: auto;
+    text-align: center;
+    font-size: 2.2rem;
+}

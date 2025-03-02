@@ -1,0 +1,174 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+h1{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.doctors-list-container{
+  box-shadow: 2px 2px 15px black inset;
+  height: 72vh;
+  border-radius: 20px;
+  overflow-y:scroll ;
+  padding: 20px;
+  background-color: hsl(204, 41%, 76%);;
+}
+.content-area {
+  width: 100%;
+  height: 75vh;
+  box-shadow: 2px 2px 15px black inset;
+  overflow-y: scroll;
+  background-color: hsl(204, 41%, 76%);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.doctor-card {
+  background-color: white;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1),;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.doctor-profile {
+  display: flex;
+  align-items: center;
+}
+
+.doctor-detail-profile {
+  /* display: fle; */
+  /* align-items: center; */
+  width: 100%;
+}
+
+.doctor-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 10%;
+  margin-right: 20px;
+}
+
+.doctor-details {
+  flex: 1;
+}
+
+.doctor-details h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.doctor-details p {
+  margin-top: 5px;
+  font-size:1rem;
+  font-weight: 500;
+  color: #292727;
+  font-weight: 600;
+}
+
+
+.card-container {
+  /* border: 2px solid black; */
+  width: 80vw;
+  height: 80vh;
+  position: fixed;
+  top: 10%;
+  right: 10%;
+  z-index: 10;
+  display: none;
+  /* Initially hidden */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+  box-shadow: 0px 0px 10px black;
+}
+
+.search-bar {
+  position: sticky;
+  top: 0;
+  background-color: #f2f2f2;
+  padding: 10px;
+  z-index: 100;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.sub-container {
+  /* border: 2px solid red; */
+  text-align: center;
+}
+
+.reviews {
+  border: 2px solid black;
+}
+
+.more-button {
+  padding: 9px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-weight: 700;
+  background-color: #6196f1;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease-in-out;
+  margin-right: 10px;
+
+}
+.more-button-link{
+  color: black;
+  text-decoration: none;
+  outline: none;
+  width: 100%;
+  
+}
+.book-appointment-btn {
+  padding: 9px 15px;
+  border-radius: 5px;
+  background-color: #6196f1;
+  margin-left: 10px;
+  cursor: pointer;
+  border: none;
+  font-weight: 700;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease-in-out;
+}
+
+.hideDetail{
+  padding: 9px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  font-weight: 700;
+  background-color: #e0e0e0;
+  /* Light background for neumorphism */
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease-in-out;
+  margin-right: 5px;
+}
+i {
+  font-size: 25px;
+  color: #337ab7;
+  margin-right: 10px;
+}

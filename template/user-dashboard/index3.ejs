@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>doctor khojo</title>
+  <link rel="stylesheet" href="/page/style3.css">
+  <link rel="stylesheet" href="/page/style1.css">
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+    
+    <div class="menu">
+
+      
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            <!-- <i class="ri-user-3-line"></i> -->
+            <%- include('../partials/profilePhoto') %>
+            <h4 id="userName" style="text-align:center; font-size: 1.5rem; width: 60%;"> <%= user.firstName %> <%= user.lastName %></h4>
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+        </ul>
+        
+      </div>
+
+   </div>
+
+   <div class="container6591" style="display: flex; justify-content: center; align-items: center;">
+    <div class="search-bar6591">
+        <input type="text" placeholder="Search..." class="search-input6591">
+        <button class="search-btn6591"><i class="fas fa-search search-icon6591"></i></button>
+    </div>
+    
+    <!-- Rest of your content here -->
+
+
+   
+    <div class="section-container" >
+        <h2>Top Rated Profiles</h2>
+        <div class="card-container6591">
+            <% doctors.forEach(function(doctor) { %>
+              <% if (doctor.workInfo.experience >= "3") { %>
+                <div class="card6591">
+                  <i class="fas fa-user-circle fa-3x"></i>
+                  <h3><%= doctor.firstName %> <%= doctor.lastName %></h3>
+                  <p>Specialty: <%= doctor.specialty %></p>
+                  <p class="rating6591">Rating: <%= doctor.rating %></p>
+                </div>
+              <% } %>
+            <% }); %>
+          </div>
+          
+        
+        <h2>Cheapest Profiles</h2>
+        <div class="card-container6591">
+            <% doctors.forEach(function(doctor) { %>
+                <% if (doctor.workInfo.experience < 3) { %>
+                  <div class="card6591">
+                    <i class="fas fa-user-circle fa-3x"></i>
+                    <h3><%= doctor.firstName %> <%= doctor.lastName %></h3>
+                    <p>Specialty: <%= doctor.specialty %></p>
+                    <p class="rating6591">Rating: <%= doctor.rating %></p>
+                  </div>
+                <% } %>
+              <% }); %>
+        </div>
+        <h2>Nearest Profiles</h2>
+        <div class="card-container6591">
+            <div class="card6591">
+                <i class="fas fa-user-circle fa-3x"></i>
+                <h3>User 7</h3>
+                <p>Degree: Degree Name</p>
+                <p class="rating6591">Rating: 4.6</p>
+            </div>
+            <div class="card6591">
+                <i class="fas fa-user-circle fa-3x"></i>
+                <h3>User 8</h3>
+                <p>Degree: Degree Name</p>
+                <p class="rating6591">Rating: 4.4</p>
+            </div>
+            <div class="card6591">
+                <i class="fas fa-user-circle fa-3x"></i>
+                <h3>User 9</h3>
+                <p>Degree: Degree Name</p>
+                <p class="rating6591">Rating: 4.3</p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const searchInput = document.querySelector(".search-input6591");
+          const cards = document.querySelectorAll(".card6591");
+    
+          searchInput.addEventListener("input", function() {
+            const searchTerm = searchInput.value.toLowerCase();
+    
+            cards.forEach(card => {
+              const cardText = card.textContent.toLowerCase();
+              if (cardText.includes(searchTerm)) {
+                card.style.display = "block";
+              } else {
+                card.style.display = "none";
+              }
+            });
+          });
+        });
+
+       
+      
+      document.addEventListener('DOMContentLoaded', async () => {
+          try {
+              const response = await fetch('/signup');
+              const user = await response.json();
+              document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+              document.getElementById('username').textContent = ` Username: ${user.firstName} ${user.lastName}`;
+          } catch (error) {
+              console.error('Error fetching user data:', error);
+          }
+      });
+      document.getElementById('logout').addEventListener('click', function() {
+    const userconfirm = confirm("Do you want to Log Out")
+    if(userconfirm){
+        localStorage.removeItem('token');  
+        fetch('/api/user/logout', {
+          method: 'POST'
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/';
+          }
+        }).catch(error => {
+          console.error('Logout failed:', error);
+        });
+        
+    }
+});      
+      </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H-medico | Nearest Doctor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/main page/doctor.css">
+</head>
+
+<body>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for doctors..." onkeyup="filterDoctors()">
+  </div>
+
+  <div class="container">
+    <div class="content-area">
+      <div class="sidebar-content active" id="content1">
+        <% doctorData.forEach(data=> { %>
+          <div class="doctor-card">
+            <div class="doctor-profile">
+              <!-- Image display logic -->
+              <img src="<%= data.imageUrl ? data.imageUrl : 'main page/asset/defalut user.jpg' %>" alt="No Picture"
+                class="doctor-image">
+
+              <div class="doctor-details">
+                <h3>
+                  <%= data.doctor.title %>
+                    <%= data.doctor.firstName %>
+                      <%= data.doctor.lastName %>
+                </h3>
+                <p><i class="fas fa-briefcase"></i> Specialty: <%= data.doctor.specialty %>
+                </p>
+                <p><i class="fas fa-hospital"></i> Hospital Name: <%= data.doctor.workInfo.hospital %>
+                </p>
+ 
+                
+                <button class="more-button"><a href="/doctor-details/<%= data.doctor._id %>" class="more-button-link" >more    </a></button>
+            
+                <a href="/api/appointment-booking?doctorId=<%= data.doctor._id %>" target="_blank">
+                  <button class="book-appointment-btn">Book Appointment</button>
+                </a>
+                
+              </div>
+            </div>
+          </div>
+          <% }) %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterDoctors() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const doctorCards = document.querySelectorAll('.doctor-card');
+
+      doctorCards.forEach(card => {
+        const doctorName = card.querySelector('h3').textContent.toLowerCase();
+        if (doctorName.includes(input)) {
+          card.style.display = 'flex'; // Show matching doctor cards
+        } else {
+          card.style.display = 'none'; // Hide non-matching doctor cards
+        }
+      });
+    }
+
+    
+  </script>
+
+</body>
+
+</html>

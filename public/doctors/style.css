@@ -1,0 +1,267 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #2C3E50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #34495E;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-menu li:hover {
+    background-color: #34495E;
+}
+
+.sidebar-menu a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+/* Content Area Styling */
+.content-area {
+    flex: 1;
+    padding: 20px;
+    background-color: #ECF0F1;
+    overflow-y: auto;
+}
+
+.sidebar-content {
+    display: block;
+}
+
+.sidebar-content.active {
+    display: block;
+}
+
+/* Profile Section Styling */
+.profile-container {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.profile-photo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.profile-photo i {
+    font-size: 50px;
+    color: #7f8c8d;
+    margin-right: 20px;
+}
+
+.profile-details h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #2980B9;
+}
+
+.profile-details p {
+    font-size: 16px;
+    color: #7f8c8d;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* Appointments and Patient Records Section Styling */
+h1 {
+    font-size: 24px;
+    color: #2980B9;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background-color: #2980B9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #3498db;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #2980B9;
+    color: white;
+}
+
+table thead th {
+    padding: 15px;
+    text-align: left;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table tbody td {
+    padding: 15px;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+table tbody td button {
+    padding: 5px 10px;
+    background-color: #2980B9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+table tbody td button a {
+    color: white;
+    text-decoration: none;
+}
+
+table tbody td button:hover {
+    background-color: #3498db;
+}
+
+/* Telehealth Section Styling */
+.sidebar-content h1,
+.sidebar-content p {
+    margin-bottom: 20px;
+}
+
+/* Logout Section Styling */
+.sidebar-content h1 {
+    margin-bottom: 10px;
+}
+/* General Table Styling */
+table {
+    width: 100%; /* Ensure the table takes up 100% of its parent */
+    border-collapse: collapse; /* Ensures there’s no spacing between cells */
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #2980B9;
+    color: white;
+    width: 100%; /* Ensure thead takes up 100% of the table's width */
+}
+
+table thead th {
+    padding: 15px;
+    text-align: left;
+    width: auto; /* Allows each th to adjust based on content */
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ccc;
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table tbody td {
+    padding: 15px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .sidebar-menu li {
+        text-align: center;
+    }
+
+    .content-area {
+        padding: 10px;
+    }
+
+    table tbody td {
+        padding: 10px;
+    }
+}

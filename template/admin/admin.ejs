@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            flex: 1 1 calc(30% - 2rem);
+            box-sizing: border-box;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card h3 {
+            margin: 0.5rem 0;
+            color: #333;
+        }
+        .card p {
+            color: #666;
+        }
+        .card a {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .card a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+    <div class="container">
+        <!-- Patient Management -->
+        <div class="card">
+            <h3>Patient Management</h3>
+            <p>Manage and view patient records efficiently.</p>
+            <a href="#">Go to Patient Management</a>
+        </div>
+
+        <!-- Appointment Scheduling -->
+        <div class="card">
+            <h3>Appointment Scheduling</h3>
+            <p>Schedule, approve, or reschedule appointments.</p>
+            <a href="#">Manage Appointments</a>
+        </div>
+
+        <!-- Staff Management -->
+        <div class="card">
+            <h3>Staff Management</h3>
+            <p>Manage staff details and availability.</p>
+            <a href="#">View Staff</a>
+        </div>
+
+        <!-- Billing and Payments -->
+        <div class="card">
+            <h3>Billing & Payments</h3>
+            <p>Track and generate invoices with ease.</p>
+            <a href="#">Manage Billing</a>
+        </div>
+
+        <!-- Reports and Analytics -->
+        <div class="card">
+            <h3>Reports</h3>
+            <p>Generate detailed reports and analytics.</p>
+            <a href="#">View Reports</a>
+        </div>
+
+        <!-- Inventory Management -->
+        <div class="card">
+            <h3>Inventory Management</h3>
+            <p>Track and manage hospital supplies.</p>
+            <a href="#">Check Inventory</a>
+        </div>
+    </div>
+</body>
+</html>

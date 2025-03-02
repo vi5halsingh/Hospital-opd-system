@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book Appointment</title>
+  <link rel="stylesheet" href="/page/style1.css">
+  <!-- <link rel="stylesheet" href="/page/style2.css"> -->
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+    <div class="menu">
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            <%- include('../partials/profilePhoto') %>
+            <h4 id="userName" style="text-align:center; font-size: 1.5rem; width: 100%;">
+              <%= user.firstName %> <%= user.lastName %>
+            </h4>
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+         
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-box9302">
+      <div class="container9302">
+        <h1 class="heading9302">Book Appointment</h1>
+        <form class="form5656" id="appointment-form" action="/api/user/appointment-booking" method="POST">
+          <!-- Removed the hidden doctorId input -->
+          <!-- <input type="hidden" name="doctorId" id="doctorId" /> -->
+
+          <div class="form-group5656">
+            <label class="label5656" for="reason">Reason for Visit:</label>
+            <input type="text" id="reason" name="reason" class="input5656 input789" required>
+          </div>
+
+          <div class="form-group5656">
+            <label class="label5656" for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" name="mobile" class="input5656 input789" required value="<%= user.phoneNumber %>" readonly>
+          </div>
+
+          <div class="form-group5656">
+            <label class="label5656" for="fullname">Full Name:</label>
+            <input type="text" id="fullname" name="fullname" class="input5656 input789" required>
+          </div>
+
+          <div class="form-group5656">
+            <label class="label5656" for="drName">Doctor Name:</label>
+            <!-- Doctor selection dropdown -->
+            <select id="drName" name="doctorId" class="input5656 input789" required>
+              <option value="" disabled selected>Select a Doctor</option>
+              <% doctors.forEach((doctor) => { %>
+                <option value="<%= doctor._id %>">
+                  <%= doctor.title %> <%= doctor.firstName %> <%= doctor.lastName %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <!-- Other form fields -->
+          <div class="age-box">
+            <div class="age-group789">
+              <label class="label789" for="age">Age:</label>
+              <input type="number" id="age" name="age" class="input789" required>
+            </div>
+            <div class="date-group789">
+              <label class="label789" for="date">Date:</label>
+              <input type="date" id="date" name="date" class="input789" required>
+            </div>
+            <div class="gender-group789">
+              <label class="label789" for="gender">Gender:</label>
+              <select id="gender" name="gender" class="input789" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="address-group789">
+              <label class="label789" for="address">Address:</label>
+              <textarea id="address" name="address" class="input789 br" rows="4" required></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-button5656" onclick="bookingAppointment()">Submit</button>
+        </form>
+      </div>
+
+      <div class="recent-appointments1">
+        <h2 style="text-align: center; color: white; text-transform: uppercase; margin-bottom: 20px;">Recent Appointments</h2>
+        <div class="recent-appointments">
+          <% if (allAppointments && allAppointments.length > 0){ %>
+            <% allAppointments.forEach((appointment, index) => { %>
+              <div class="card">
+                <span id="delete" style="text-align: end; display:flex; justify-content: end;">
+                  <i class="ri-delete-bin-5-line" style="cursor: pointer; font-size: 1.2rem;" onclick="deleteAppointment('<%= appointment._id %>')"></i>
+                </span>
+                <h3 class="hospital-name"> For : <%= appointment.drName %></h3>
+                <p class="subheading"><i>Reason: <%= appointment.reason %></i></p>
+                <p>Date: <%= appointment.date %></p>
+                <div class="buttons">
+                  <button><i class="fas fa-download"></i> Download Medical Records</button>
+                  <button><i class="fas fa-info-circle"></i> View Full Info</button>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p style="text-align: center; color: white;">No appointments found.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    // Logout functionality (commented out for now)
+    
+    document.getElementById('logout').addEventListener('click', function() {
+      const userconfirm = confirm("Do you want to Log Out");
+      if(userconfirm){
+        localStorage.removeItem('token');  
+        fetch('/api/user/logout', {
+          method: 'POST'
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/';
+          }
+        }).catch(error => {
+          console.error('Logout failed:', error);
+        });
+      }
+    });
+    
+
+    // Delete appointment functionality
+    async function deleteAppointment(appointmentId) {
+    
+      try {
+        const confirmation = confirm("Do you want to delete this appointment?");
+        if (confirmation) {
+          const response = await fetch(`/api/user/appointment/delete/${appointmentId}`, {
+            method: 'DELETE',
+          });
+
+          if (response.ok) {
+            alert("Deleted successfully");
+            // Optionally, remove the appointment card from the UI
+            document.querySelector(`.card .ri-delete-bin-5-line[onclick="deleteAppointment('${appointmentId}')"]`).closest('.card').remove();
+          } else {
+            const errorData = await response.json();
+            alert(errorData.message || "Error deleting appointment");
+          }
+        }
+      } catch (err) {
+        console.log("Error during delete:", err);
+        alert("An unexpected error occurred.");
+      }
+    }
+
+    //
+    const urlParams = new URLSearchParams(window.location.search);
+    const successMessage = urlParams.get('successMessage');
+    const errorMessage = urlParams.get('errorMessage');
+
+    if (successMessage) {
+        alert(successMessage);
+    }
+
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+
+  // Extract the doctorId from the URL
+  const urlParamsforappoint = new URLSearchParams(window.location.search);
+  const selectedDoctorId = urlParamsforappoint.get('doctorId');
+
+  // Pre-select the doctor in the dropdown
+  if (selectedDoctorId) {
+    const doctorDropdown = document.getElementById('drName');
+    doctorDropdown.value = selectedDoctorId;
+  }
+
+  socket.on('new-appointment', (data) => {
+    if (data.appointment.createdBy === '<%= user._id %>') {
+        // Add new appointment to the list without refresh
+        const appointmentsList = document.querySelector('.appointments-list');
+        const newAppointmentHtml = `
+            <div class="appointment-card">
+                <h3>${data.appointment.drName}</h3>
+                <p>Date: ${data.appointment.date}</p>
+                <p>Status: ${data.appointment.status}</p>
+                <!-- Add other appointment details -->
+            </div>
+        `;
+        appointmentsList.insertAdjacentHTML('afterbegin', newAppointmentHtml);
+    }
+  });
+
+  </script>
+
+</body>
+</html>

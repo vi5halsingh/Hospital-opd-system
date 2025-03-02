@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Details</title>
+    <link rel="stylesheet" href="/doctors/style.css">
+    <link rel="stylesheet" href="/doctors/admin.css">
+</head>
+<body>
+    <div class="container">
+     
+        
+        <div class="content-area">
+            <div class="staff-detail-panel">
+                <h2>Staff Details</h2>
+                
+                <form id="staffUpdateForm" class="staff-form">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" value="<%= staff.UserId.firstName %> <%= staff.UserId.lastName %>" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Contact:</label>
+                        <input type="text" value="<%= staff.mobileNumber %>" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Post:</label>
+                        <select name="post" required>
+                            <option value="receptionist">Receptionist</option>
+                            <option value="nurse">Nurse</option>
+                            <option value="assistant">Medical Assistant</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Grade:</label>
+                        <select name="grade" required>
+                            <option value="junior">Junior</option>
+                            <option value="senior">Senior</option>
+                            <option value="head">Head</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Salary:</label>
+                        <input type="number" name="salary" required>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="btn-update">Update</button>
+                        <button type="button" class="btn-remove" onclick="removeStaff('<%= staff._id %>')">Remove Staff</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    async function removeStaff(staffId) {
+        if (!confirm('Are you sure you want to remove this staff member?')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/remove-staff/${staffId}`, {
+                method: 'POST'
+            });
+            
+            if (response.ok) {
+                alert('Staff removed successfully');
+                window.location.href = '/api/doctor/add-staff';
+            } else {
+                const data = await response.json();
+                alert(data.error || 'Error removing staff');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred');
+        }
+    }
+    </script>
+</body>
+</html> 

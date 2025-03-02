@@ -1,0 +1,26 @@
+ 
+            <% if (imageUrl) { %>
+                <a href="/api/profile-picture" >
+
+                <img src=" <%= imageUrl %>" alt="" class="profile-picture" style="
+                text-decoration: none;
+                width: 89px;
+                height: 89px;
+                color:white; 
+                border: 2px solid black;
+               border-radius: 50%;
+                ">
+                </a>
+              <% } else { %>
+                <!-- <p>No profile image uploaded.</p> -->
+                 <a href="/api/profile-picture"><img src="/main page/asset/defalut user.jpg" alt="" style="
+                text-decoration: none;
+                width: 89px;
+                height: 89px;
+                color:white; 
+               
+               border-radius: 50%;
+                "></a>
+              <% } %>
+
+            

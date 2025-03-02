@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H-medico</title>
+  <link rel="stylesheet" href="/main page/style.css">
+  <link rel="stylesheet" href="/main page/header.css">
+  <link rel="stylesheet" href="/main page/button.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha384-jLKHWMJt5R8YfSCdK2lO4zB7C5/jCsnx8drMyNTL8c92wG9zzZl6Z6I+So9Jgfgi" crossorigin="anonymous">
+    <!-- Other head content -->
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/main page/asset/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/main page/asset/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/main page/asset/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+  
+<%- include('../partials/header') %>
+  <main>
+    <div class="container">
+      <div id="home"></div>
+      <div class="hero-section" id="#home">
+        <div class="hero-header">
+          <h1>Search across your <span>Needs</span></h1>
+          <div class="search-bar">
+            <input type="text" id="searchText" placeholder="City">
+            <input type="text" id="searchSpeciality" placeholder="Search for your needs">
+            <button><a href="/main page/search.html" target="_blank" style="text-decoration: none; color: #d9d9d9;">Search</a></button>
+          </div>
+        </div>
+      </div>
+      <section class="banner">
+        <div class="slides-container">
+          <div class="slide">
+            <p>Connect with us and help each other <i class="fa-solid fa-people-group"></i> </p>
+            <button><a href="#connect" style="text-decoration: none; color: #1AA75B;">Let's Begin</a></button>
+          </div>
+        </div>
+      </section>
+      
+      <section class="quick-links">
+        <div class="link link1" id="nearest-doctors">
+          <img src="/main page/asset/doctors.png" alt="">
+        <p>Nearest Doctors</p>
+      </div>
+          
+        <div class="link" onclick="commingSoon()">
+          <img src="/main page/asset/medical.png" alt="">
+          <p>Get nearest medical</p>
+        </div>
+        <div class="link" onclick="bookAppointmnet()">
+          <img src="/main page/asset/check.png" alt="">
+          <p>Book Appointment</p>
+        </div>
+        <div class="link" onclick="commingSoon()">
+          <img src="/main page/asset/category.png" alt="">
+          <p>Category </p>
+        </div>
+      </section>
+      
+      <section class="categories">
+        <div style="width: 99%; position: sticky; top:0; background-color: white; border-radius: 10px; z-index: 1;">
+          <h1 style="text-align: center; font-size: 1rem;">Search quick for your need</h1>
+        </div>
+        <% const categories = ["Cardiologist", "Dermatologist", "Orthopedic Surgeon", "Pediatrician", "Neurologist", 
+                               "Gynecologist", "Psychiatrist", "Ophthalmologist", "ENT Specialist", "Allergist", 
+                               "Sexologist", "Dentist", "Oncologist", "Gastroenterologist", "Endocrinologist", 
+                               "Rheumatologist", "Urologist", "Surgeon" ,"gernal physician"]; %>
+        <% categories.forEach(category => { %>
+          <div class="category">
+            <a href="/specialty/<%= encodeURIComponent(category) %>" style="text-decoration: none; color: black;">
+              <p><%= category %></p>
+            </a>
+          </div>
+        <% }) %>
+      </section>
+      
+    </div>
+    
+    <div id="services"></div>
+    <span >
+      <h1 id="our-services-heading">OUR SERVICES</h1>
+    </span>
+    <section class="our-services">
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-calendar-check"></i> Online Appointment</h2>
+          <p>Book your hospital appointment online with ease – choose your preferred date and time in just a few clicks!</p>
+          <a href="/comming-soon"> ></a>
+        </div>
+      </div>
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-user-md"></i> Physical Appointment</h2>
+          <p>Book your physical appointment now and meet our specialists.</p>
+          <a href="/api/appointment-booking"> ></a>
+        </div>
+      </div>
+        <div class="service">
+          <div class="card123">
+            <h2><i class="fas fa-pills"></i> Check for Your turn</h2>
+            <p>check the number of running appointment of that speciafic doctor, for you booked appointment today </p>
+            <a href="/api/Queue-Status"> ></a>
+          </div>
+        </div>
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-ambulance"></i> Ambulance Appointment</h2>
+          <p>Schedule an ambulance pickup with just a few clicks and get immediate help.</p>
+          <a href="/comming-soon"> ></a>
+        </div>
+      </div>
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-pills"></i> Medicines</h2>
+          <p>Access a wide range of high-quality medications for your needs.</p>
+          <a href="/comming-soon"> ></a>
+        </div>
+      </div>
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-hands-helping"></i> Hospital Assistance</h2>
+          <p>Get assistance with hospital services and patient care by booking online.</p>
+          <a href="/comming-soon"> ></a>
+        </div>
+      </div>
+      <div class="service">
+        <div class="card123">
+          <h2><i class="fas fa-heartbeat"></i> Required Free Checkup</h2>
+          <p>Require a free health checkup? Book online and stay proactive.</p>
+          <a href="/comming-soon"> ></a>
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="about-us">
+      <div id="about"></div>
+      <h2>About Us</h2>
+      <div class="parent-container">
+        <div class="left-container">
+          <img src="/main page//asset/about.png" alt="Your Image">
+        </div>
+        <div class="right-container">
+          <p class="info">Stay healthy, it's the real treasure in life. In the realm of medicine, where science meets compassion, practitioners strive to heal and comfort. From groundbreaking research to patient care, the pursuit of well-being unfolds with every dedicated heartbeat.</p>
+          <a class="contact-btn" href="#">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="hospitals">
+      <div id="gallery"></div>
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <img src="/main page/image1.jpg" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+          <img src="/main page/image2.jpg" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+          <img src="/main page/image3.jpg" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+          <img src="/main page/image4.jpg" style="width:100%">
+        </div> 
+        <div class="mySlides fade">
+          <img src="/main page/image5.jpg" style="width:100%">
+        </div> 
+        <div class="mySlides fade">
+          <img src="/main page/image6.jpg" style="width:100%">
+        </div> 
+        <div class="mySlides fade">
+          <img src="/main page/image7.jpg" style="width:100%">
+        </div> 
+      </div>
+    </section>
+
+    <section class="connect">
+      <div id="connect"></div>
+      <div class="h-connect">
+        <h1>Connect with Us</h1>
+      </div>
+      <div class="container403409">
+        <h2 class="heading987654">Get Latest Updates</h2>
+        <form class="form9826" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="6352d767-30b5-4373-a7dd-8185c509ff0b">
+          <div class="input-group123456">
+            <input type="text" name="name" placeholder="Name" class="input-field789012" />
+          </div>
+          <div class="input-group123456">
+            <input type="email" name="email" placeholder="Email" class="input-field789012" />
+          </div>
+          <div class="input-group123456">
+            <textarea name="message" placeholder="Your Message" class="input-field789012"></textarea>
+          </div>
+          <button class="submit-button" type="submit">Submit</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div id="footer"></div>
+      <div class="footer-container">
+        <div class="column">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">Email Us</a></li>
+            <li><a href="#">Phone: 123-456-7890</a></li>
+            <li><a href="#">Location</a></li>
+          </ul>
+        </div>
+        <div class="column">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <div id="loginModal" class="modal" style="z-index: 1080;">
+    <!-- <span class="close" onclick="closeModal()">&times;</span> -->
+    <div class="modal-content">
+      <a href="/login/doctor">Doctor Login</a>
+      <a href="/login/patient">Patient Login</a>
+    </div>
+  </div>
+  
+
+  <script src="/main page/script.js"></script>
+ 
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>admin || setting</title>
+</head>
+<body>
+ 
+  
+<h2>Settings</h2>
+<form action="/admin/settings/update" method="POST">
+  <div class="mb-3">
+    <label for="adminPassword" class="form-label">Admin Password</label>
+    <input type="password" name="adminPassword" id="adminPassword" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-success">Update Settings</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Picture Upload</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .profile_form {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .profileImage {
+            display: block;
+            margin: 0 auto 10px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .btn-profile {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-profile:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <form action="/api/user/profile-picture" method="POST" enctype="multipart/form-data" class="profile_form">
+        <div class="form-group">
+            <input type="file" class="profileImage" name="profileImage" required>
+            <button type="submit" class="btn-profile">Upload</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="/doctors/style.css">
+    <link rel="stylesheet" href="/doctors/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<style>
+    .doctor-info-panel {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .doctor-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doctor-name {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .doctor-id {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .add-button {
+        padding: 0.5rem 1.5rem;
+        background: #337ab7;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .add-button:hover {
+        background: #286090;
+    }
+
+    .staff-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    .staff-table th {
+        background: #f5f5f5;
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .staff-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .view-link {
+        color: #337ab7;
+        text-decoration: none;
+    }   
+
+    .view-link:hover {
+        text-decoration: underline;
+    }
+    .mobile-form-container {
+      width: 80%;
+      display: none;
+      height: 40%;
+      align-items: center;
+        max-width: 800px;
+        margin: 2rem auto;
+        position: absolute;
+        right:10%;
+        /* border: 1px solid black; */
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        top: 20%;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+    .mobile-form {
+        width: 100%;
+    }
+
+    .form-content {
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+
+    .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    label {
+        font-size: 1rem;
+        color: #333;
+        font-weight: 500;
+    }
+
+    input[type="tel"] {
+        padding: 0.8rem;
+        width: 80%;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+        /* width: 100%; */
+    }
+
+    input[type="tel"]:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    .submit-btn {
+        background-color: #4a90e2;
+        color: white;
+        padding: 0.8rem 0%  ;
+        border: none;
+        width: 20%;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .submit-btn:hover {
+        background-color: #357abd;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 50px;
+        cursor: pointer;
+        color: #666;
+    }
+
+    .close-btn:hover {
+        color: #333;
+    }
+
+    @media (max-width: 480px) {
+        .mobile-form-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .form-content {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .submit-btn {
+            margin-top: 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .doctor-info-panel {
+            padding: 1rem;
+        }
+        
+        .staff-table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="/api/staff">Profile</a></li>
+                <li><a href="/api/New-Appointments">Appointments <sup style="color: red;font-weight: bold;"></sup></a></li>
+                <li><a href="/api/patient-record">Patient Records</a></li>
+                <li><a href="/comming-soon">Telehealth Integration</a></li>
+                <li><a href="/api/doctor/add-staff">Your staff</a></li>
+                <li id="logout">Log Out</li>
+            </ul>
+        </div>
+
+        <div class="content-area">
+            <div class="doctor-info-panel">
+                <div class="panel-header">
+                    <div class="doctor-details">
+                        <span class="doctor-name">Dr. John Smith</span>
+                        <span class="doctor-id">ID: DOC123456</span>
+                    </div>
+                    <button class="add-button">Add New</button>
+                </div>
+                
+                <table class="staff-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Post</th>
+                            <th>Number</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (staffList && staffList.length > 0) { %>
+                            <% staffList.forEach(function(staff) { %>
+                                <tr data-staff-id="<%= staff._id %>">
+                                    <td><%= staff.name %></td>
+                                    <td><%= staff.post || 'Staff' %></td>
+                                    <td><%= staff.mobile %></td>
+                                    <td><%= staff.status %></td>
+                                    <td>
+                                        <a href="/api/user/staff-details/<%= staff._id %>" class="view-btn">View</a>
+                                        <button class="status-toggle" data-mobile="<%= staff.mobile %>">
+                                            <%= staff.status === 'active' ? 'Deactivate' : 'Activate' %>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5">No staff members found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mobile-form-container">
+            <span class="close-btn">&times;</span>
+            <form class="mobile-form" action="/api/user/add-staff" method="post">
+                <div class="form-content">
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" name="mobileNumber" 
+                               placeholder="Enter mobile number" 
+                               pattern="[0-9]{10}" 
+                               required>
+                    </div>
+                    <button type="submit" class="submit-btn">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>              
+            
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addButton = document.querySelector('.add-button');
+            const formContainer = document.querySelector('.mobile-form-container');
+            const closeBtn = document.querySelector('.close-btn');
+            const mobileForm = document.querySelector('.mobile-form');
+
+            // Show form when Add New button is clicked
+            addButton.addEventListener('click', function() {
+                formContainer.style.display = 'flex';
+            });
+
+            // Hide form when close button is clicked
+            closeBtn.addEventListener('click', function() {
+                formContainer.style.display = 'none';
+            });
+
+            // Add click handler for view buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const staffId = this.closest('tr').dataset.staffId;
+                    window.location.href = `/api/user/staff-details/${staffId}`;
+                });
+            });
+
+            // Status toggle functionality
+            document.querySelectorAll('.status-toggle').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const mobile = this.dataset.mobile;
+                    try {
+                        const response = await fetch('/api/user/update-staff-status', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ mobileNumber: mobile })
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            this.textContent = data.status === 'active' ? 'Deactivate' : 'Activate';
+                            this.closest('tr').querySelector('td:nth-child(4)').textContent = data.status;
+                        } else {
+                            alert('Error updating staff status');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating status');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+    document.querySelector('.mobile-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const mobileNumber = document.getElementById('mobileNumber').value;
+        
+        try {
+            const response = await fetch('/api/user/add-staff', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobileNumber })
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Add new staff member to the table
+                const tbody = document.querySelector('.staff-table tbody');
+                const newRow = `
+                    <tr>
+                        <td>${data.staff.name}</td>
+                        <td>Staff</td>
+                        <td>${data.staff.mobile}</td>
+                        <td><a href="#" class="view-link">View</a></td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', newRow);
+                
+                // Clear form and hide it
+                document.getElementById('mobileNumber').value = '';
+                document.querySelector('.mobile-form-container').style.display = 'none';
+                
+                alert('Staff member added successfully!');
+            } else {
+                alert(data.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while adding staff member');
+        }
+    });
+    </script>
+
+    <script src="/doctors/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/main page/doctor.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Doctors by Specialty</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .search-bar {
+      position: sticky;
+      top: 0;
+      background-color: #f2f2f2;
+      padding: 10px;
+      z-index: 100;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for doctors..." onkeyup="filterDoctors()">
+  </div>
+  <h1>Doctors Specializing in <%= specialty %>
+  </h1>
+  <section class="doctors-list-container">
+
+    <% if (data.length===0) { %>
+      <p style=" text-align: center; font-size: 1.2rem; font-weight: 600;">No doctors found for this specialty.</p>
+      <div style="text-align: center; font-size: 1.2rem;font-weight: 600; margin-top: 12rem; ">
+        <p>search doctors by their Name </p>
+        <a href="/nearest-doctors" ><button style="padding: 10px; background-color: #6196f1; font-size: 1rem; font-weight: 600; border-radius: 5px; cursor: pointer; outline: none; border: none;">go for it</button></a>
+      </div>
+      <% } else { %>
+        <% data.forEach((data)=>{ %>
+          <div class="doctor-card">
+            <div class="doctor-profile">
+              <img src="<%= data.imageUrl ? data.imageUrl : '/main page/asset/defalut user.jpg' %>" alt="No Picture"
+                class="doctor-image">
+
+              <div class="doctor-details">
+                <h3>
+                  <%= data.doctor.title %>
+                    <%= data.doctor.firstName %>
+                      <%= data.doctor.lastName %>
+                </h3>
+                <p><i class="fas fa-briefcase"></i> Specialty: <%= data.doctor.specialty %>
+                </p>
+                <p><i class="fas fa-hospital"></i> Hospital Name: <%= data.doctor.workInfo.hospital %>
+                </p>
+
+
+                <button class="more-button"><a href="/doctor-details/<%= data.doctor._id %>"
+                    class="more-button-link">more </a></button>
+
+                    <a href="/api/appointment-booking?doctorId=<%= data.doctor._id %>" target="_blank">
+                      <button class="book-appointment-btn">Book Appointment</button>
+                    </a>
+              </div>
+            </div>
+          </div>
+          <%})%>
+            <% } %>
+  </section>
+  <script>
+    function filterDoctors() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const doctorCards = document.querySelectorAll('.doctor-card');
+
+      doctorCards.forEach(card => {
+        const doctorName = card.querySelector('h3').textContent.toLowerCase();
+        if (doctorName.includes(input)) {
+          card.style.display = 'flex'; // Show matching doctor cards
+        } else {
+          card.style.display = 'none'; // Hide non-matching doctor cards
+        }
+      });
+    }
+
+
+  </script>
+</body>
+
+</html>

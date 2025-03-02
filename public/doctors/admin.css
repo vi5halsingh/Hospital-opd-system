@@ -1,0 +1,56 @@
+/* Sidebar Content Toggle */
+.sidebar-content {
+  display: block;
+}
+
+.sidebar-content.active {
+  display: block;
+}
+
+/* Status Icon Styling */
+.profile-appointment-list i {
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.profile-appointment-list i:hover {
+  opacity: 0.8;
+}
+
+/* Additional Layout Adjustments */
+.profile-photo {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-photo i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 14px;
+  cursor: pointer;
+  color: #e74c3c;
+}
+
+.search-container input {
+  flex: 1;
+}
+
+.search-container button {
+  margin-left: 10px;
+  padding: 10px;
+  background-color: #2980B9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+  background-color: #3498db;
+}
+.profile-details {
+  margin: 20px 20px;
+}

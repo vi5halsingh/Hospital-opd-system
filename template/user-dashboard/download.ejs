@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Appointment Records</title>
+  <link rel="stylesheet" href="/path/to/your/style.css">
+</head>
+<body>
+  <div class="download-records-container">
+    <h1>Download Appointment Records</h1>
+    <form id="download-form" action="/api/user/download-records" method="POST">
+      <label for="appointmentId">Appointment ID:</label>
+      <input type="text" id="appointmentId" name="appointmentId" required>
+      <button type="submit">Download Records</button>
+    </form>
+  </div>
+</body>
+</html>

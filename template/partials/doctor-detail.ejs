@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/main page/doctor.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>H-medico | doctor-detail</title>
+
+    <style>
+        /* Doctor Card */
+.doctor-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.doctor-detail-profile {
+  /* display: flex; */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.sub-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doctor-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover; /* Maintain aspect ratio and prevent cropping */
+}
+
+.doctor-card h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5; /* Improve readability */
+}
+
+.book-appointment-btn {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.book-appointment-btn:hover {
+  background-color: #286090;
+}
+
+/* Doctor Details */
+.doctor-details {
+  line-height: 1.5; /* Improve readability */
+}
+
+.doctor-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.doctor-details p i {
+  margin-right: 5px;
+}
+
+/* Reviews Section */
+.reviews {
+  border-top: 1px solid #ddd;
+  padding: 20px 0;
+}
+
+.reviews h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Add Your Review Form */
+.add-your {
+  width: 100%;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.add-your input[type="text"] {
+  width: 100%;
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 16px;
+  outline: none; /* Remove default browser outline */
+}
+
+.add-your button[type="submit"] {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.add-your button[type="submit"]:hover {
+  background-color: #286090;
+}
+
+/* Review Card */
+.review-card {
+ 
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: #f5f5f5;
+}
+
+.review-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover; /* Maintain aspect ratio and prevent cropping */
+  margin-right: 15px;
+}
+.reviewerInfo{
+  display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.review-content {
+    width: 90%;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding-left: 20px;
+    /* background-color: white; */
+}
+
+.review-card p {
+  font-size: 1.2rem;
+  color: black;
+  margin: 0;
+}
+.doctor-details {
+
+  flex-wrap: wrap;
+  gap: 10px; /* Adjust gap as needed */
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.detail-item i {
+  font-size: 25px;
+  color: #337ab7;
+  margin-right: 10px;
+}
+
+.detail-item span {
+  font-size: 1.1rem;
+    color: #333;
+    font-weight: bold;
+}
+.reviewDp{
+  height: 40px;
+  width: 40px;
+  border-radius: 10%;
+  border: 2px salmon solid;
+}
+
+/* Responsiveness (optional) */
+    </style>
+</head>
+<body>
+  <!-- Doctor Detail Section -->
+  
+  <div class="doctor-card">
+          <p><a href="/"  style="outline: none; text-decoration: none; font-size: 1.5rem;"><i class="fas fa-home"></i></a></p>
+          <div class="doctor-detail-profile">
+            <div class="sub-container">
+                <img src="<%= image ? image : '/main page/asset/defalut user.jpg' %>" alt="no DP">
+              <h2>
+                <%= doctor.title %> <%= doctor.firstName %> <%= doctor.lastName %>
+              </h2>
+              <a href="/api/appointment-booking?doctorId=<%= doctor._id %>" target="_blank">
+                <button class="book-appointment-btn">Book Appointment</button>
+              </a>
+            </div>
+            <hr>
+            <div class="doctor-details">
+                <div class="detail-item">
+                  <i class="fas fa-briefcase"></i>
+                  <span>Specialty: <%= doctor.specialty %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-hospital"></i>
+                  <span>Hospital Name: <%= doctor.workInfo.hospital %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-map-marker-alt"></i> <span>Address: <%= doctor.contactInfo.address %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-phone"></i>
+                  <span>Contact Number: <%= doctor.contactInfo.phoneNumber %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-envelope"></i>
+                  <span>Hospital Email: <%= doctor.contactInfo.email %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-graduation-cap"></i> <span>Education: <%= doctor.qualifications.degree %></span>
+                </div>
+                <div class="detail-item">
+                  <i class="fas fa-calendar-alt"></i> <span>Availability: <%= doctor.availability.days %> - Time: <%= doctor.availability.startTime %> to <%= doctor.availability.endTime %></span>
+                </div>
+              </div>
+          </div>
+        </div>
+   
+   <!-- Reviews Section -->
+  <div class="reviews">
+    <h3>What people say</h3>
+    <h4>Add Your: </h4>
+  
+      <form class="add-your" action="/reviews/<%= doctor._id %>" method="POST" id="add-your-review">
+        <input type="text" name="content" id="content" placeholder="Welcome! Write your thoughts here....">
+        <button type="submit">Add</button>
+      </form>
+<h4>All Reviews:</h4>
+      
+        <% reviewInfo.forEach((data) => { %>
+
+        <div class="review-card">
+          <div class="reviewerInfo">
+                  <img src="<%= data.review_imageUrl ? data.review_imageUrl: '/main page/asset/defalut user.jpg' %>" alt="pic"> 
+                  <%= data.review.createdBy.firstName %> <%= data.review.createdBy.lastName %>
+                </div>
+                <div class="review-content">
+                  <p><%= data.review.content %></p>
+                </div>
+              </div>
+              
+           <%})%>
+     
+
+  </div>
+    
+      <script>
+    
+    function toggleDetails(doctorId) {
+      const element = document.getElementById('details-' + doctorId);
+      element.style.display = element.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function hideDetails(doctorId) {
+      const element = document.getElementById('details-' + doctorId);
+      element.style.display = 'none';
+    }
+      </script>
+</body>
+</html>

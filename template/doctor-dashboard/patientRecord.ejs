@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="/doctors/style.css">
+    <link rel="stylesheet" href="/doctors/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="/api/staff">Profile</a></li>
+                <li>
+                    <a href="/api/New-Appointments">
+                        Appointments
+                        <sup style="color: red; font-weight: bold;" id="newAppointmentsCount">
+                            <%= newAppoint.length %>
+                        </sup>
+                    </a>
+                </li>
+                <li><a href="/api/patient-record">Patient Records</a></li>
+                <li><a href="/comming-soon">Telehealth Integration</a></li>
+                <li><a href="/api/doctor/add-staff">Your Staff</a></li>
+                <li id="logout">Log Out</li>
+            </ul>
+        </div>
+
+        <div class="content-area">
+            <!-- Patient Records Section -->
+            <div class="sidebar-content" id="content3">
+                <div class="search-container">
+                    <input type="text" id="recordsearchInput" onkeyup="searchRecord()" placeholder="Search records...">
+                    <button onclick="searchRecord()">Search</button>
+                </div>
+                <div class="patient-record">
+                    <h1>Patient Records</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Mobile Number</th>
+                                <th>Status</th>
+                                <th>Address</th>
+                                <th>Payment</th>
+                                <th>Details</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patient-records-body">
+                            <% if(allAppointments && allAppointments.length > 0) { %>
+                                <% allAppointments.forEach(appointment => { %>
+                                    <% if (appointment.status !== 'new') { %>
+                                        <tr id="appointment-<%= appointment._id %>" data-appointment-id="<%= appointment._id %>">
+                                            <td><%= appointment.fullname %></td>
+                                            <td><%= appointment.mobile %></td>
+                                            <td><%= appointment.status %></td>
+                                            <td><%= appointment.address %></td>
+                                            <td>Yes</td>
+                                            <td><button><a href="/api/patient-details/<%= appointment.createdBy %>">More</a></button></td>
+                                            <td><button><a href="#">Delete</a></button></td>
+                                        </tr>
+                                    <% } %>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="7">No patient records found.</td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io Integration for Real-Time Updates -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const doctorId = '<%= doctor._id %>';
+
+        // Listen for status updates
+        socket.on('status-update', (data) => {
+            if (data.doctorId === doctorId) {
+                const tbody = document.getElementById('patient-records-body');
+                const existingRow = document.querySelector(`#appointment-${data.appointmentId}`);
+                
+                if (!existingRow && data.status !== 'new') {
+                    // Fetch the updated appointment data
+                    fetch(`/api/user/appointments/${data.appointmentId}`)
+                        .then(response => response.json())
+                        .then(appointment => {
+                            const newRow = `
+                                <tr id="appointment-${appointment._id}" data-appointment-id="${appointment._id}">
+                                    <td>${appointment.fullname}</td>
+                                    <td>${appointment.mobile}</td>
+                                    <td>${appointment.status}</td>
+                                    <td>${appointment.address}</td>
+                                    <td>Yes</td>
+                                    <td><button><a href="/api/patient-details/${appointment.createdBy}">More</a></button></td>
+                                    <td><button><a href="#">Delete</a></button></td>
+                                </tr>
+                            `;
+                            tbody.insertAdjacentHTML('afterbegin', newRow);
+                        })
+                        .catch(error => console.error('Error fetching appointment:', error));
+                }
+            }
+        });
+    </script>
+
+    <script src="/doctors/admin.js"></script>
+</body>
+
+</html>

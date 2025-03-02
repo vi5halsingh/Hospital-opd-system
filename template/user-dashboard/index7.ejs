@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>medical - Record</title>
+  <link rel="stylesheet" href="/page/style1.css">
+  <link rel="stylesheet" href="/page/style7.css">
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+    
+    <div class="menu">
+
+      
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            <!-- <i class="ri-user-3-line"></i> -->
+            <%- include('../partials/profilePhoto') %>
+            <h4 id="userName" style="text-align:center; font-size: 1.5rem;"> <%= user.firstName %> <%= user.lastName %></h4>
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+        </ul>
+        
+      </div>
+
+   </div>
+
+    <div class="content-box9302">
+    
+      
+        <div class="container789">
+            <div class="search-section456">
+              <input type="text" placeholder="Search...">
+              <select>
+                <option value="name">Search by Name</option>
+                <option value="Reason">Search by Reason</option>
+                <option value="date">Search by Date</option>
+                <option value="Doctor name">search by Doctor name</option>
+                <option value="status">Search by Status</option>
+              </select>
+            </div>
+            <table class="data-table123">
+              <thead>
+                <tr>
+                  <th style="text-align: start;">No.</th>
+                  <th>Name</th>
+                  <th>Reason</th>
+                  <th>Date</th>
+                  <th>Doctor name</th>
+                  <th>Status</th>
+                    <th>Print</th>
+                  </tr>
+                </thead>
+                <% if(allAppointments.length > 0){ %> 
+                  <% allAppointments.forEach((appointment, index) =>{ %> 
+                    
+                <tbody  style="color: black;">
+                  <!-- Data rows will go here -->
+                  <tr>
+                    <td><%= index +1 %></td>
+                    <td><%= appointment.fullname %></td>
+                    <td><%= appointment.reason%></td>
+                    <td><%= appointment.date %></td>
+                    <td><%= appointment.drName %></td>
+                    <td><%= appointment.status %></td>
+                    <td><button class="print-button789">Print</button></td>
+                  </tr>
+                
+                  <!-- Add more rows as needed -->
+                </tbody>
+                <%})%>
+              <%}else{%> 
+                <h3>You dont have any record </h3>
+                <%}%>
+              </table>
+          </div>
+          
+   
+      
+    </div>
+    </div>
+  <!-- Assuming this script tag is placed at the end of the HTML body for better performance -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.querySelector('input[type="text"]');
+  const filterSelect = document.querySelector('select');
+  const tableRows = document.querySelectorAll('.data-table123 tbody tr');
+
+  // Function to filter rows based on the selected filter option and search input
+  function filterRows() {
+    const filterValue = filterSelect.value.toLowerCase();
+    const inputValue = searchInput.value.toLowerCase();
+
+    tableRows.forEach(row => {
+      let cellValue;
+      if (filterValue === 'no.') {
+        cellValue = row.querySelector('td:first-child').textContent.toLowerCase();
+      } else {
+        cellValue = row.querySelector(`td:nth-child(${getColumnIndex(filterValue)})`).textContent.toLowerCase();
+      }
+
+      if (cellValue.includes(inputValue)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  }
+
+  // Function to get column index based on column name
+  function getColumnIndex(columnName) {
+    const headers = document.querySelectorAll('.data-table123 th');
+    for (let i = 0; i < headers.length; i++) {
+      if (headers[i].textContent.toLowerCase() === columnName) {
+        return i + 1;
+      }
+    }
+    return -1; // Return -1 if column name not found
+  }
+
+  // Event listener for input changes in search input or filter select
+  searchInput.addEventListener('input', filterRows);
+  filterSelect.addEventListener('change', filterRows);
+});
+document.addEventListener('DOMContentLoaded', async () => {
+          try {
+              const response = await fetch('/api/user');
+              const user = await response.json();
+              document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+              document.getElementById('username').textContent = ` Username: ${user.firstName} ${user.lastName}`;
+          } catch (error) {
+              console.error('Error fetching user data:', error);
+          }
+      });
+
+      
+      document.getElementById('logout').addEventListener('click', function() {
+    const userconfirm = confirm("Do you want to Log Out")
+    if(userconfirm){
+        localStorage.removeItem('token');  
+        fetch('/api/user/logout', {
+          method: 'POST'
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/';
+          }
+        }).catch(error => {
+          console.error('Logout failed:', error);
+        });
+        
+    }
+});
+
+  </script>
+  
+</body>
+</html>

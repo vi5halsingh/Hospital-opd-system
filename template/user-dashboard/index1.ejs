@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>patient dashboard</title>
+  <link rel="stylesheet" href="/page/style1.css">
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+    <div class="menu">
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            
+            <%- include('../partials/profilePhoto')%>
+            <h4 id="userName" style="text-align:center; font-size: 1.5rem; width: 100%;"> <%= user.firstName %> <%= user.lastName %></h4>
+                 
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+          <!-- <li id="logout"><a href="">Log Out</a></li> -->
+
+         
+        </ul>
+        
+      </div>
+
+   </div>
+
+    <div class="content-box9302">
+      <div class="profile-overview">
+        <div class="username" id="username">Username: <%= user.firstName %> <%= user.lastName%> </div>
+        <div class="age">DOB:  <%= user.dob %> </div>
+        <div class="address">Address: <%= user.address %>  </div>
+        <div class="visits">Recent Visits : <%= allAppointments.length %></div>
+        <div class="reward">Reward: 2 Gold Stars</div>
+      </div>
+    </div>
+    </div>
+
+</body>
+<script>
+document.getElementById('logout').addEventListener('click', function() {
+    const userconfirm = confirm("Do you want to Log Out")
+    if(userconfirm){
+        localStorage.removeItem('token');  
+        fetch('/api/user/logout', {
+          method: 'POST'
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/';
+          }
+        }).catch(error => {
+          console.error('Logout failed:', error);
+        });
+        
+    }
+});
+</script>
+</html>

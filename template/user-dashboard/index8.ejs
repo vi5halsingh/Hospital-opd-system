@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient | Update User Info</title>
+  <link rel="stylesheet" href="/page/style1.css">
+  <link rel="stylesheet" href="/page/style8.css">
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+    <div class="menu">
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            <%- include('../partials/profilePhoto') %>
+            <h4 id="userName" style="text-align:center; font-size: 1.5rem;"> <%= user.firstName %> <%= user.lastName %></h4>
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-box9302" style="display: flex; justify-content: center; align-items: start; width:100%;">
+      <div class="container1223">
+        <div class="sidebar">
+          <ul>
+            <li><a href="#account">Account</a></li>
+            <li><a href="#password">Password</a></li>
+            <li><a href="#joinAsStaff">be a staff</a></li>
+            <li><a href="#help">Help</a></li>
+          </ul>
+        </div>
+        <div class="content">
+          <div id="account">
+            <h2>Account Settings</h2>
+            <form id="updateUserForm">
+              <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>">
+              </div>
+              <div>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>">
+              </div>
+              <div>
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>">
+              </div>
+              <div>
+                <label for="phoneNumber">Mobile Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" value="<%= user.phoneNumber %>">
+              </div>
+              <div>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" value="<%= user.dob %>">
+              </div>
+              <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" value="<%= user.address %>">
+              </div>
+              <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                  <option value="OBC" <%= user.category === 'OBC' ? 'selected' : '' %>>OBC</option>
+                  <option value="GENERAL" <%= user.category === 'GENERAL' ? 'selected' : '' %>>GENERAL</option>
+                  <option value="SC/ST" <%= user.category === 'SC/ST' ? 'selected' : '' %>>SC/ST</option>
+                </select>
+              </div>
+              <div>
+                <button type="submit">Save Changes</button>
+              </div>
+            </form>
+          </div>
+          <div id="password" style="display: none;">
+            <h2>Change Password</h2>
+            <form id="changePasswordForm">
+              <div>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword">
+              </div>
+              <div>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword">
+              </div>
+              <div>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+              </div>
+              <div>
+                <button type="submit">Change Password</button>
+              </div>
+            </form>
+          </div>
+          <div id="joinAsStaff">
+            <form action="/api/user/join-as-staff" method="post">
+              <div class="group-item">
+                <label for="license">Licence Number</label>
+                <input type="text" id="license" placeholder="enter license Number">
+                <button type="submit">send request</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Submit user info update
+    document.getElementById('updateUserForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/user/patiet/Update-user-information', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        alert(result.message || 'User updated successfully.');
+        if (response.ok) location.reload();
+      } catch (error) {
+        console.log('Error updating user:', error);
+        alert('Failed to update user.');
+      }
+    });
+
+    // Submit password change request
+    document.getElementById('changePasswordForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/user/patiet/change-password', {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        alert(result.message || 'Password changed successfully.');
+        if (response.ok) location.reload();
+      } catch (error) {
+        console.error('Error changing password:', error);
+        alert('Failed to change password.');
+      }
+    });
+
+        document.addEventListener("DOMContentLoaded", function() {
+  const sidebarLinks = document.querySelectorAll('.sidebar a'); // Select all links in the sidebar
+
+  // Loop through each sidebar link
+  sidebarLinks.forEach(function(link) {
+    // Add click event listener to each link
+    link.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default link behavior
+      const targetId = this.getAttribute('href'); // Get the target section ID from the link's href attribute
+
+      // Hide all sections
+      const contentSections = document.querySelectorAll('.content > div');
+      contentSections.forEach(function(section) {
+        section.style.display = 'none';
+      });
+
+      // Display the target section
+      const targetSection = document.querySelector(targetId);
+      if (targetSection) {
+        targetSection.style.display = 'block';
+      }
+    });
+  });
+});
+document.addEventListener('DOMContentLoaded', async () => {
+          try {
+              const response = await fetch('/api/patient');
+              const user = await response.json();
+              document.getElementById('userName').textContent = `${user.firstName} ${user.lastName}`;
+              document.getElementById('username').textContent = ` Username: ${user.firstName} ${user.lastName}`;
+          } catch (error) {
+              console.error('Error fetching user data:', error);
+          }
+      });
+
+      document.getElementById('logout').addEventListener('click', function() {
+    const userconfirm = confirm("Do you want to Log Out")
+    if(userconfirm){
+        localStorage.removeItem('token');  
+        fetch('/api/user/logout', {
+          method: 'POST'
+        }).then(response => {
+          if (response.ok) {
+            window.location.href = '/';
+          }
+        }).catch(error => {
+          console.error('Logout failed:', error);
+        });
+        
+    }
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Card</title>
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+         <h2>H-medico</h2>
+        </div>
+        <div class="navbar-right">
+            <input type="text" placeholder="Search..." class="search-input">
+            <input type="text" placeholder="Location..." class="location-input">
+        </div>
+    </nav>
+   <div class="main-container">
+    <h2>Search result for <span>xxxxxx</span></h2>
+    <div class="card">
+        <img src="image1.jpg" alt="Hospital" class="hospital-image">
+        <div class="card-content">
+            <h2>Sanjivani hospital Damoh, Madhya Pradesh</h2>
+            <p><i class="fas fa-map-marker-alt"></i> near at teen gulli, pg collage road</p>
+           <div class="d-s-container">
+            <div class="doctors">
+                <button>Dr.paliwal</button>
+                <button>Dr. sanjana</button>
+            </div>
+            <div class="services">
+                <button>Breast Cancer Screening</button>
+                <button>Contact Lens Prescription</button>
+                <button>Dentist</button>
+            </div>
+           </div>
+            <div class="contact">
+                <i class="fa-solid fa-phone"></i>
+                <div class="phone">9302726591</div>
+                <button class="book">Book</button>
+                <button class="share"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <img src="image1.jpg" alt="Hospital" class="hospital-image">
+        <div class="card-content">
+            <h2>Sanjivani hospital Damoh, Madhya Pradesh</h2>
+            <p><i class="fas fa-map-marker-alt"></i> near at teen gulli, pg collage road</p>
+           <div class="d-s-container">
+            <div class="doctors">
+                <button>Dr.paliwal</button>
+                <button>Dr. sanjana</button>
+            </div>
+            <div class="services">
+                <button>Breast Cancer Screening</button>
+                <button>Contact Lens Prescription</button>
+                <button>Dentist</button>
+            </div>
+           </div>
+            <div class="contact">
+                <i class="fa-solid fa-phone"></i>
+                <div class="phone">9302726591</div>
+                <button class="book">Book</button>
+                <button class="share"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <img src="image1.jpg" alt="Hospital" class="hospital-image">
+        <div class="card-content">
+            <h2>Sanjivani hospital Damoh, Madhya Pradesh</h2>
+            <p><i class="fas fa-map-marker-alt"></i> near at teen gulli, pg collage road</p>
+           <div class="d-s-container">
+            <div class="doctors">
+                <button>Dr.paliwal</button>
+                <button>Dr. sanjana</button>
+            </div>
+            <div class="services">
+                <button>Breast Cancer Screening</button>
+                <button>Contact Lens Prescription</button>
+                <button>Dentist</button>
+            </div>
+           </div>
+            <div class="contact">
+                <i class="fa-solid fa-phone"></i>
+                <div class="phone">9302726591</div>
+                <button class="book">Book</button>
+                <button class="share"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <img src="image1.jpg" alt="Hospital" class="hospital-image">
+        <div class="card-content">
+            <h2>Sanjivani hospital Damoh, Madhya Pradesh</h2>
+            <p><i class="fas fa-map-marker-alt"></i> near at teen gulli, pg collage road</p>
+           <div class="d-s-container">
+            <div class="doctors">
+                <button>Dr.paliwal</button>
+                <button>Dr. sanjana</button>
+            </div>
+            <div class="services">
+                <button>Breast Cancer Screening</button>
+                <button>Contact Lens Prescription</button>
+                <button>Dentist</button>
+            </div>
+           </div>
+            <div class="contact">
+                <i class="fa-solid fa-phone"></i>
+                <div class="phone">9302726591</div>
+                <button class="book">Book</button>
+                <button class="share"><i class="fa-solid fa-share"></i></button>
+            </div>
+        </div>
+    </div>
+   </div>
+    <script>
+        function applyEllipsis(selector) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => {
+        if (element.scrollWidth > element.clientWidth) {
+            element.style.whiteSpace = 'nowrap';
+            element.style.overflow = 'hidden';
+            element.style.textOverflow = 'ellipsis';
+        }
+    });
+}
+
+// Usage
+applyEllipsis('.card-content h2');
+
+    </script>
+</body>
+</html>

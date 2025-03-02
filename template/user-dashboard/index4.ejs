@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Status</title>
+  <link rel="stylesheet" href="/page/style4.css">
+  <link rel="stylesheet" href="/page/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div class="main-dashboard">
+   
+    <div class="menu">
+      
+      <div id="list9302">
+        <ul style="color: white;">
+          <div class="profile9302">
+            <!-- <i class="ri-user-3-line"></i> -->
+            <%- include('../partials/profilePhoto') %>
+              <h4 id="userName" style="text-align:center; font-size: 1.5rem;">
+                <%= user.firstName %>
+                  <%= user.lastName %>
+              </h4>
+          </div>
+          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
+          <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
+          <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
+          <li><a href="/api/Medical-Records" class="anchor9302">Medical Records</a></li>
+          <li><a href="/api/Settings" class="anchor9302">Settings</a></li>
+          <li id="logout" style="cursor: pointer;">Log Out</li>
+        </ul>
+
+      </div>
+
+    </div>
+    <section style="display:flex; flex-direction: column; width: 100%; margin-top: 10px; align-items: center;">
+      <h2>Your Appointments & Queue Status</h2>
+      <% if (appointments.length > 0) { %>
+        
+        <div class="rectangular-box5467">
+          <div class="square-box6732">
+            <% appointforPandD.forEach(function(data, yourIndex) { %>
+              
+              <div class="sub-square-box6732">
+                <div class="user-card">
+                  <div class="user-details">
+       
+                    <% 
+                      
+                    const userAppointmentIndex = data.appointfordoctor.findIndex(appointment => appointment.createdBy.toString() === data.appoint.createdBy.toString());
+                    if (userAppointmentIndex !== -1) { 
+                  %>
+                  <div class="queue-no" style="font-size: 3rem;"> <%= userAppointmentIndex + 1 %> </div><!-- Displaying 1-based index -->
+                  <% } else { %>
+                      Not Found
+                  <% } %>
+              
+                <div class="user-name" style="font-size: 1.5rem;">
+                  <%= data.appoint.fullname %>
+                </div>
+              </div>
+                  <div class="user-details">
+                    <i class="fas fa-briefcase"></i>
+                    <div class="user-cause">Booked for: <%= data.appoint.drName %></div>
+                  </div>
+                  <div class="user-details">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="user-more">Please wait for your turn. Enable notifications for updates.</div>
+                  </div>
+                </div>  
+               
+                <div class="container-main-9302">
+                  <h1>Live Queue Status</h1>
+                  <table class="queue-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Ailment</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <% data.appointfordoctor.forEach((appointment, index) => { %> 
+                    <tbody id="patient-records-body">
+                          <tr>
+                            <td>
+                              <%= appointment.fullname %>
+                            </td>
+                    
+                            <!-- Manual position control using for loop -->
+                            <% for (let i = 1; i = index+1; i++ ) { %>
+                              <td>
+                                <%= i %>
+                              </td>
+                              <% break; %> <!-- Only one position per row -->
+                            <% } %>
+                    
+                            <td>
+                              <%= appointment.reason %>
+                            </td>
+                            <td>
+                              <%= appointment.mobile %>
+                            </td>
+                            <td>
+                              <%= appointment.address %>
+                            </td>
+                    
+                            <% if (index === 0) { %>
+                              <td>running</td>
+                            <% } else { %>
+                              <td>waiting</td>
+                            <% } %>
+                          </tr>
+                    </tbody>  
+                    <% }) %> 
+          </table>
+                </div>
+                  
+              </div>
+              
+            <% }); %>
+          </div>
+        </div>  
+      <% } else { %>
+        <p>No appointments found.</p>
+      <% } %>
+    </section>
+
+    <!-- Display New Appointments for Doctors -->
+   
+  </div>
+  <script>
+  
+    document.getElementById('logout').addEventListener('click', () => {
+      if (confirm("Do you want to log out?")) {
+        localStorage.removeItem('token');
+        fetch('/api/user/logout', { method: 'POST' })
+          .then((res) => res.ok && (window.location.href = '/'))
+          .catch(console.error);
+      }
+    });
+  </script>
+  
+</body>
+</html>

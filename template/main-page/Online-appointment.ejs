@@ -1,0 +1,53 @@
+<div class="appointment-slots">
+    <h2>Available Appointment Slots</h2>
+    <div id="slots-container">
+      <!-- Slots will be populated here -->
+    </div>
+  </div>
+  
+
+  <div id="confirmation">
+    <h2>Appointment Confirmation</h2>
+    <p>Your appointment is confirmed. You can join the virtual meeting below:</p>
+    <a id="meeting-link" href="#">Join Meeting</a>
+  </div>
+  
+
+  
+  
+  <script>
+      // Replace with your logic to fetch the booked appointment
+      const meetingLink = "https://virtualmeeting.com/room/12345"; // example link
+      document.getElementById("meeting-link").setAttribute("href", meetingLink);
+
+
+      
+      document.addEventListener("DOMContentLoaded", async () => {
+      const response = await fetch('/api/available-slots'); // Fetch slots from backend
+      const slots = await response.json();
+  
+      const container = document.getElementById('slots-container');
+      slots.forEach(slot => {
+        const slotCard = document.createElement('div');
+        slotCard.classList.add('slot-card');
+        slotCard.innerHTML = `
+          <h3>Dr. ${slot.doctorName}</h3>
+          <p>Date: ${slot.date}</p>
+          <p>Time: ${slot.time}</p>
+          <button onclick="bookAppointment('${slot._id}')">Book Appointment</button>
+        `;
+        container.appendChild(slotCard);
+      });
+    });
+  
+    async function bookAppointment(slotId) {
+      const response = await fetch(`/api/book-slot/${slotId}`, { method: 'POST' });
+      if (response.ok) {
+        alert("Appointment booked successfully!");
+        window.location.reload(); // Refresh page to show updated status
+      } else {
+        alert("Failed to book appointment.");
+      }
+    }
+  </script>
+  

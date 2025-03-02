@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Page</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 100px;
+      padding: 20px;
+    }
+
+    h1 {
+        font-size: 3rem;
+      color: #34b5a5;
+
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 40px;
+    }
+
+    .icon {
+      font-size: 5rem;
+      color: #34b5a5;
+      margin-bottom: 20px;
+      animation: shake 0.5s infinite alternate cubic-bezier(0.6, 0.05, 0.98, 0.335); /* Add animation with cubic bezier */    }
+
+    @keyframes shake {
+      0% {
+        transform: rotate(-10deg);
+      }
+      100% {
+        transform: rotate(10deg);
+      }
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #34b5a5;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background-color: #2cb570;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .icon {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <i class="icon fas fa-wrench"></i>
+    <h1>Error 404</h1>
+    <p>Oops! The page you're looking for could not be found.</p>
+    <button class="btn" onclick="goBack()">Go back</button>
+  </div>
+  <script>
+      function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>
