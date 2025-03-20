@@ -13,7 +13,7 @@ function setuser(user) {
         address: user.address,
         userType: user.userType,
         category: user.category,
-    }, secret, { expiresIn: '2h' });
+    }, secret,);
 }
 
 // Function to verify the token and retrieve the user data
