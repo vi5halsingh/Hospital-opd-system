@@ -29,9 +29,11 @@ async function handleSignup(req, res) {
     
     const existingUser = await Signupdetail.findOne({ phoneNumber });
     if (existingUser) {
-      
-        req.flash('error', 'You are signed up. Please go to login.');
-        return res.redirect('/login/patient');
+      if(existingUser.isVerified = false){
+        req.flash('error', 'You are not verified up. Please go for the varification .');
+        return res.redirect('/otp-verification');
+
+      }
     }
 
     if (!firstName || !lastName || !email || !password || !phoneNumber || !category) {
@@ -55,7 +57,7 @@ async function handleSignup(req, res) {
     try {
         
         const mailOptions = {
-            from: '"H-Medico" <vishalsinghrendom@gmail.com>',
+            from: '"e-OPD" <vishalsinghrendom@gmail.com>',
             to: email,
             subject: "OTP Verification for Signup",
             html: `
@@ -151,10 +153,6 @@ async function handleLogin(req, res, next) {
             req.flash('error', 'Password or mobile number is incorrect.');
             return res.redirect('/login/patient');
         }
-        if (!user.isVerified) {
-          req.flash('error', 'Account is not verified. Please verify your email.');
-          return res.redirect('/otp-varification');
-        }
         const token = setuser(user);
         res.cookie("token", token, { httpOnly: true });
 
@@ -205,7 +203,6 @@ async function doctorLogin(req, res) {
         }
     } catch (error) {
         console.error('Error handling login:', error);
-       
         req.flash('error', 'There are some issue! please try again');
         return res.redirect('/login/doctor');
     }

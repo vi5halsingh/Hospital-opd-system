@@ -92,7 +92,7 @@ app.set('io', io);
 const startServer = (port) => {
     try {
         server.listen(port, () => {
-            console.log(`Worker ${process.pid} started - http://localhost:${port}`);
+            console.log(`Worker ${process.pid} started - on port No : ${port}`);
         });
     } catch (error) {
         if (error.code === 'EADDRINUSE') {
