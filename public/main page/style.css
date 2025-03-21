@@ -545,13 +545,6 @@ main {
 }
 
 
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _______________________footer______________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
 /* Footer Styles */
 footer {
   padding-top: 40px;
@@ -562,19 +555,24 @@ footer {
 }
 
 footer a{
-  /* color: #333; */
+
   color: #007a4b;
+  margin-top: 20px;
 }
 footer li {
   color: #007a4b;
 }
-
+footer .social-links {
+font-size: 1.5rem;
+display: flex;
+gap: 2rem;
+}
 .footer-container {
   /* margin-top: 100px; */
-  max-width: 960px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 h2 {
@@ -591,12 +589,6 @@ ul {
 li {
   margin-bottom: 5px;
 }
-
-a {
-  text-decoration: none;
-  color: #007bff;
-}
-
 a:hover {
   text-decoration: underline;
 }

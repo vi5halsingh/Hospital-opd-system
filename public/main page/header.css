@@ -195,59 +195,23 @@ nav a:hover {
 }
 
  
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _______________________footer______________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* _____________________________________________________ */
-/* Footer Styles */
-footer {
-  padding-top: 40px;
-  margin-top: 100px ;
-  background-color: #d9d9d9;
-  padding: 10px 0;
-  text-align: center;
-}
 
-footer a{
-  /* color: #333; */
-  color: #007a4b;
-}
-footer li {
-  color: #007a4b;
-}
-
-.footer-container {
-  /* margin-top: 100px; */
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-}
-
-h2 {
+header h2 {
   font-weight: bold;
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-ul {
+header ul {
   list-style: none;
   padding: 0;
 }
 
-li {
+header li {
   margin-bottom: 5px;
 }
 
-a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-a:hover {
+header a:hover {
   text-decoration: underline;
 }
 #languageSection{
