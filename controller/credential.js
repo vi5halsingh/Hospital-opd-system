@@ -135,7 +135,10 @@ async function verifyOtp(req, res) {
 async function handleLogin(req, res, next) {
     try {
         const { phoneNumber, password } = req.body;
-
+        if(isNaN(phoneNumber)){
+          req.flash('error', 'please enter a valid Phone number');
+          return res.redirect('/login/patient');
+        }
         const user = await Signupdetail.findOne({ phoneNumber });
         if (!user) {
             req.flash('error', 'You are not signed up. Please go to signup.');
