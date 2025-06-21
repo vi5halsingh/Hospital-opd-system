@@ -38,7 +38,7 @@ router.post('/reviews/:doctorId',checkForAuthentication, async (req, res) => {
     createdBy: req.user._id
   })
     req.flash('error', 'There are some issue pleas try again');
-  return res.json("review added sucessfully")
+  return res.status(200).redirect(`/doctor-details/${req.params.doctorId}`)
 })
 
 router.get('/doctor-details/:id', async (req, res) => {

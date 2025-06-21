@@ -29,11 +29,9 @@ async function handleSignup(req, res) {
     
     const existingUser = await Signupdetail.findOne({ phoneNumber });
     if (existingUser) {
-      if(existingUser.isVerified = false){
-        req.flash('error', 'You are not verified up. Please go for the varification .');
-        return res.redirect('/otp-verification');
-
-      }
+      
+        req.flash('error', 'You are signed up. Please go to login.');
+        return res.redirect('/login/patient');
     }
 
     if (!firstName || !lastName || !email || !password || !phoneNumber || !category) {
@@ -57,7 +55,7 @@ async function handleSignup(req, res) {
     try {
         
         const mailOptions = {
-            from: '"e-OPD" <vishalsinghrendom@gmail.com>',
+            from: '"H-Medico" <vishalsinghrendom@gmail.com>',
             to: email,
             subject: "OTP Verification for Signup",
             html: `
@@ -137,10 +135,7 @@ async function verifyOtp(req, res) {
 async function handleLogin(req, res, next) {
     try {
         const { phoneNumber, password } = req.body;
-        if(isNaN(phoneNumber)){
-          req.flash('error', 'please enter a valid Phone number');
-          return res.redirect('/login/patient');
-        }
+
         const user = await Signupdetail.findOne({ phoneNumber });
         if (!user) {
             req.flash('error', 'You are not signed up. Please go to signup.');
@@ -185,7 +180,7 @@ async function doctorLogin(req, res) {
             req.flash('error', 'Check your Mobile No. Or Contact With us ');
             return res.redirect('/login/doctor');
         }
-
+       
         
         const passwordMatch = await bcrypt.compare(password, doctor.authentication_Information.password);
         if (!passwordMatch) {
@@ -203,6 +198,7 @@ async function doctorLogin(req, res) {
         }
     } catch (error) {
         console.error('Error handling login:', error);
+       
         req.flash('error', 'There are some issue! please try again');
         return res.redirect('/login/doctor');
     }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/login.css">
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Login</h1>
+    <form id="loginForm" action="/admin/login" method="post">
+      <div class="input-group">
+        <label for="email">Email:<sup>*</sup></label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="input-group" style="position: relative;">
+        <label for="password">Password<sup>*</sup></label>
+        <input type="password" id="password" name="password" required>
+        <i class="ri-eye-fill" id="show" style="display: none; position: absolute; top: 65%;right: 2%"></i>
+        <i class="ri-eye-off-fill" style="position: absolute; top: 65%;right: 2%" id="hide"></i>
+        <div class="error-message" id="errorMessage" style="color:rgb(233, 7, 7)"></div>
+      </div>
+      <div class="button-container">
+        <button type="submit">Login</button>
+      </div>
+      <p id="errorMessage" style="display: none;"></p>
+    </form>
+    <% if (errorMessage && errorMessage.length > 0) { %>
+      <script>
+          alert('<%= errorMessage %>');
+      </script>
+    <% } %>
+    <% if (successMessage && successMessage.length > 0) { %>
+      <script>
+          alert('<%= successMessage %>');
+      </script>
+    <% } %>
+  </div>
+<script>
+  const hide = document.getElementById('hide');
+  const show = document.getElementById('show');
+  const passwordInput = document.getElementById('password');
+  hide.addEventListener('click', function() {
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash'); 
+    show.style.display='block'
+    hide.style.display='none'
+  });
+  show.addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+    show.style.display='none'
+    hide.style.display='block'
+  });
+</script>
+</body>
+</html> 

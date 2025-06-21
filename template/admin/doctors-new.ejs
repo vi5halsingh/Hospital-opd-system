@@ -110,13 +110,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
-            color: white;
+            background-color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: bold;
-            font-size: 0.9rem;
         }
         
         .status-badge {
@@ -127,8 +126,8 @@
         }
         
         .status-active {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #d1edff;
+            color: #0c5460;
         }
         
         .status-inactive {
@@ -210,14 +209,11 @@
         <!-- Topbar -->
         <div class="topbar">
             <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0 text-gray-800">
-                    <i class="bi bi-person-badge me-2"></i>
-                    Doctors Management
-                </h1>
+                <h1 class="h3 mb-0 text-gray-800">Doctors Management</h1>
                 <div class="d-flex align-items-center">
                     <a href="/admin/doctors/add" class="btn btn-primary me-3">
                         <i class="bi bi-person-plus me-2"></i>
-                        Add Doctor
+                        Add New Doctor
                     </a>
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -257,8 +253,8 @@
                     <div class="col-md-3">
                         <select class="form-select" id="statusFilter">
                             <option value="">All Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -275,7 +271,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div>
                     <i class="bi bi-person-badge me-2"></i>
-                    Doctors (<span id="doctorCount"><%= doctors.length %></span>)
+                    Doctors List (<span id="doctorCount"><%= doctors.length %></span>)
                 </div>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="exportToCSV()">
@@ -308,38 +304,33 @@
                                         </div>
                                         <div>
                                             <div class="fw-bold"><%= doctor.title %> <%= doctor.firstName %> <%= doctor.lastName %></div>
-                                            <small class="text-muted"><%= doctor.qualifications.degree %></small>
+                                            <small class="text-muted"><%= doctor.workInfo.hospital %></small>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="fw-bold"><%= doctor.specialty %></div>
-                                    <small class="text-muted"><%= doctor.workInfo.department %></small>
+                                    <span class="badge bg-primary"><%= doctor.specialty %></span>
                                 </td>
                                 <td>
-                                    <div class="fw-bold"><%= doctor.contactInfo.email %></div>
-                                    <small class="text-muted"><%= doctor.contactInfo.phoneNumber %></small>
+                                    <div><i class="bi bi-envelope me-1"></i><%= doctor.contactInfo.email %></div>
+                                    <div><i class="bi bi-telephone me-1"></i><%= doctor.contactInfo.phoneNumber %></div>
                                 </td>
                                 <td>
-                                    <div class="fw-bold"><%= doctor.workInfo.experience %> years</div>
-                                    <small class="text-muted"><%= doctor.workInfo.hospital %></small>
+                                    <span class="badge bg-info"><%= doctor.workInfo.experience %> years</span>
                                 </td>
                                 <td>
-                                    <span class="status-badge status-<%= doctor.status ? 'active' : 'inactive' %>">
-                                        <%= doctor.status ? 'Active' : 'Inactive' %>
-                                    </span>
+                                    <span class="status-badge status-active">Active</span>
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="/admin/doctors/edit/<%= doctor._id %>" class="btn btn-outline-primary btn-sm" title="Edit">
+                                        <a href="/admin/doctors/<%= doctor._id %>" class="btn btn-outline-info btn-sm" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="/admin/doctors/edit/<%= doctor._id %>" class="btn btn-outline-warning btn-sm" title="Edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button type="button" class="btn btn-outline-info btn-sm" title="View Details" 
-                                                onclick="viewDoctor('<%= doctor._id %>')">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
                                         <button type="button" class="btn btn-outline-danger btn-sm" title="Delete" 
-                                                onclick="deleteDoctor('<%= doctor._id %>')">
+                                                onclick="deleteDoctor('<%= doctor._id %>', '<%= doctor.firstName %> <%= doctor.lastName %>')">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
@@ -352,19 +343,23 @@
         </div>
     </div>
 
-    <!-- Doctor Details Modal -->
-    <div class="modal fade" id="doctorModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Doctor Details</h5>
+                    <h5 class="modal-title">Confirm Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body" id="doctorModalBody">
-                    <!-- Content will be loaded dynamically -->
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong id="doctorName"></strong>?</p>
+                    <p class="text-danger">This action cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -374,30 +369,34 @@
     <script>
         // Search functionality
         document.getElementById('searchInput').addEventListener('keyup', function() {
-            filterDoctors();
-        });
-
-        // Filter functionality
-        document.getElementById('specialtyFilter').addEventListener('change', filterDoctors);
-        document.getElementById('statusFilter').addEventListener('change', filterDoctors);
-
-        function filterDoctors() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const specialtyFilter = document.getElementById('specialtyFilter').value;
-            const statusFilter = document.getElementById('statusFilter').value;
-            
+            const searchTerm = this.value.toLowerCase();
             const rows = document.querySelectorAll('#doctorsTable tbody tr');
             
             rows.forEach(row => {
-                const doctorName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+            
+            updateCount();
+        });
+
+        // Filter functionality
+        document.getElementById('specialtyFilter').addEventListener('change', filterTable);
+        document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+        function filterTable() {
+            const specialtyFilter = document.getElementById('specialtyFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const rows = document.querySelectorAll('#doctorsTable tbody tr');
+            
+            rows.forEach(row => {
                 const specialty = row.querySelector('td:nth-child(2)').textContent;
-                const status = row.querySelector('td:nth-child(5)').textContent.trim();
+                const status = row.querySelector('td:nth-child(5)').textContent;
                 
-                const searchMatch = !searchTerm || doctorName.includes(searchTerm);
                 const specialtyMatch = !specialtyFilter || specialty.includes(specialtyFilter);
-                const statusMatch = !statusFilter || status === statusFilter;
+                const statusMatch = !statusFilter || status.toLowerCase().includes(statusFilter);
                 
-                row.style.display = searchMatch && specialtyMatch && statusMatch ? '' : 'none';
+                row.style.display = specialtyMatch && statusMatch ? '' : 'none';
             });
             
             updateCount();
@@ -418,64 +417,10 @@
             updateCount();
         }
 
-        function viewDoctor(doctorId) {
-            // Load doctor details via AJAX
-            fetch(`/admin/doctors/${doctorId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const doctor = data.doctor;
-                        document.getElementById('doctorModalBody').innerHTML = `
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6>Personal Information</h6>
-                                    <p><strong>Name:</strong> ${doctor.title} ${doctor.firstName} ${doctor.lastName}</p>
-                                    <p><strong>Specialty:</strong> ${doctor.specialty}</p>
-                                    <p><strong>Degree:</strong> ${doctor.qualifications.degree}</p>
-                                    <p><strong>Medical School:</strong> ${doctor.qualifications.medicalSchool}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>Contact Information</h6>
-                                    <p><strong>Email:</strong> ${doctor.contactInfo.email}</p>
-                                    <p><strong>Phone:</strong> ${doctor.contactInfo.phoneNumber}</p>
-                                    <p><strong>Address:</strong> ${doctor.contactInfo.address}</p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <h6>Work Information</h6>
-                                    <p><strong>Hospital:</strong> ${doctor.workInfo.hospital}</p>
-                                    <p><strong>Department:</strong> ${doctor.workInfo.department}</p>
-                                    <p><strong>Experience:</strong> ${doctor.workInfo.experience} years</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6>Availability</h6>
-                                    <p><strong>Days:</strong> ${doctor.availability.days}</p>
-                                    <p><strong>Time:</strong> ${doctor.availability.startTime} - ${doctor.availability.endTime}</p>
-                                </div>
-                            </div>
-                        `;
-                        new bootstrap.Modal(document.getElementById('doctorModal')).show();
-                    } else {
-                        alert('Error loading doctor details');
-                    }
-                });
-        }
-
-        function deleteDoctor(doctorId) {
-            if (confirm('Are you sure you want to delete this doctor? This action cannot be undone.')) {
-                fetch(`/admin/doctors/delete/${doctorId}`, {
-                    method: 'DELETE'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload();
-                    } else {
-                        alert('Error deleting doctor: ' + data.message);
-                    }
-                });
-            }
+        function deleteDoctor(doctorId, doctorName) {
+            document.getElementById('doctorName').textContent = doctorName;
+            document.getElementById('deleteForm').action = `/admin/doctors/delete/${doctorId}`;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
         }
 
         function exportToCSV() {
@@ -486,6 +431,7 @@
             rows.forEach(row => {
                 const cols = Array.from(row.querySelectorAll('td, th'));
                 const rowData = cols.map(col => {
+                    // Remove HTML tags and get text content
                     const text = col.textContent.replace(/\s+/g, ' ').trim();
                     return `"${text}"`;
                 });

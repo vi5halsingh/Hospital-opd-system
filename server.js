@@ -11,7 +11,7 @@ const noAuthRoute = require('./routes/routeWithNoAuth');
 const mainPageRouter = require('./routes/mainPage');
 const AdminRoutes = require('./routes/admin');
 const mainPagePath = path.join(__dirname, '../main page');
-const { checkForAuthentication , restrictTo } = require('./middleware/auth')
+const { checkForAuthentication , restrictTo, requireAdminAuth } = require('./middleware/auth')
 const cluster = require('cluster')
 const os = require('os'); 
 const { Socket } = require('dgram');
@@ -35,7 +35,7 @@ const templatePath = path.join(__dirname, './template');
 const publicPath = path.join(__dirname, './public');
 const http = require("http")
 app.use(session({
-    secret: 'Vishal@121$', 
+    secret:process.env.JWT_Secret, 
     resave: false,
     saveUninitialized: true,
 }));
@@ -46,26 +46,26 @@ const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
 
-io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
+// io.on("connection", (socket) => {
+//     console.log("A user connected:", socket.id);
 
-    socket.on("disconnect", () => {
-        console.log("A user disconnected:", socket.id);
-    });
+//     socket.on("disconnect", () => {
+//         console.log("A user disconnected:", socket.id);
+//     });
 
-    socket.on('appointment-booked', (data) => {
-        io.emit(`doctor-${data.doctorId}`, {
-            message: 'New appointment booked',
-            appointment: data.appointment
-        });
-    });
+//     socket.on('appointment-booked', (data) => {
+//         io.emit(`doctor-${data.doctorId}`, {
+//             message: 'New appointment booked',
+//             appointment: data.appointment
+//         });
+//     });
     
-    socket.on('queue-update', (data) => {
-        io.emit(`queue-update-${data.doctorId}`, {
-            queue: data.queue
-        });
-    });
-});
+//     socket.on('queue-update', (data) => {
+//         io.emit(`queue-update-${data.doctorId}`, {
+//             queue: data.queue
+//         });
+//     });
+// });
 
 app.use((req, res, next) => {
     res.locals.successMessage = req.flash('success');
@@ -76,6 +76,8 @@ app.use(express.static(publicPath));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
+
+
 app.use('/api/user', useRouter);
 app.use('/api',checkForAuthentication, staticRouter)
 app.use('/',noAuthRoute )

@@ -3,7 +3,7 @@ const { getuser } = require('../services/auth');
 function checkForAuthentication(req, res, next) {
     const tokenCookie = req.cookies?.token;
     req.user = null;
-    if (!tokenCookie) return next()
+    if (!tokenCookie) return res.redirect('/login/patient')
     const token = tokenCookie;
     const user = getuser(token);
     req.user = user;
@@ -48,4 +48,12 @@ function checkForAuth(req, res, next) {
     // console.log("req.user from midd:",req.user)
     return next();
 }
-module.exports = { checkForAuthentication, restrictTo , doctorAuthentication};
+
+function requireAdminAuth(req, res, next) {
+  if (req.session && req.session.isAdmin) {
+    return next();
+  }
+  res.redirect('/admin/login');
+}
+
+module.exports = { checkForAuthentication, restrictTo , doctorAuthentication, requireAdminAuth };

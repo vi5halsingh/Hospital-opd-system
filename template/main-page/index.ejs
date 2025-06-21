@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>H-medico</title>
+  <title>e-OPD - Your Health, Our Priority</title>
   <link rel="stylesheet" href="/main page/style.css">
   <link rel="stylesheet" href="/main page/header.css">
   <link rel="stylesheet" href="/main page/button.css">
@@ -21,6 +21,204 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/main page/asset/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/main page/asset/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
+  
+  <style>
+    .stats-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 0;
+      margin: 2rem 0;
+    }
+    
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+    
+    .stat-card {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .featured-section {
+      padding: 3rem 0;
+      background: #f8f9fa;
+    }
+    
+    .featured-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #333;
+    }
+    
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .doctor-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .doctor-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .doctor-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .doctor-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-right: 1rem;
+    }
+    
+    .doctor-info h3 {
+      margin: 0;
+      color: #333;
+      font-size: 1.2rem;
+    }
+    
+    .doctor-specialty {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .doctor-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: bold;
+      color: #667eea;
+    }
+    
+    .stat-label-small {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .reviews-section {
+      background: white;
+      padding: 3rem 0;
+    }
+    
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .review-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 1.5rem;
+      border-left: 4px solid #667eea;
+    }
+    
+    .review-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .reviewer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #667eea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+    
+    .reviewer-info h4 {
+      margin: 0;
+      color: #333;
+    }
+    
+    .review-date {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .review-content {
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    .review-doctor {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #667eea;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+  </style>
 </head>
 <body>
   
@@ -38,6 +236,33 @@
           </div>
         </div>
       </div>
+      
+      <!-- Statistics Section -->
+      <section class="stats-section">
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-number"><%= totalDoctors %></div>
+            <div class="stat-label">Expert Doctors</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number"><%= totalPatients %></div>
+            <div class="stat-label">Happy Patients</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number"><%= totalAppointments %></div>
+            <div class="stat-label">Appointments</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number"><%= successRate %>%</div>
+            <div class="stat-label">Success Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number"><%= todaysAppointments %></div>
+            <div class="stat-label">Today's Appointments</div>
+          </div>
+        </div>
+      </section>
+      
       <section class="banner">
         <div class="slides-container">
           <div class="slide">
@@ -85,6 +310,54 @@
       </section>
       
     </div>
+    
+    <!-- Featured Doctors Section -->
+    <section class="featured-section">
+      <div class="featured-container">
+        <h2 class="section-title">Our Expert Doctors</h2>
+        <% if (featuredDoctors && featuredDoctors.length > 0) { %>
+          <div class="doctors-grid">
+            <% featuredDoctors.forEach(doctor => { %>
+              <div class="doctor-card">
+                <div class="doctor-header">
+                  <% if (doctor.imageUrl) { %>
+                    <img src="<%= doctor.imageUrl %>" alt="<%= doctor.firstName %>" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-right: 1rem;">
+                  <% } else { %>
+                    <div class="doctor-avatar">
+                      <%= doctor.firstName.charAt(0) %><%= doctor.lastName.charAt(0) %>
+                    </div>
+                  <% } %>
+                  <div class="doctor-info">
+                    <h3><%= doctor.title %> <%= doctor.firstName %> <%= doctor.lastName %></h3>
+                    <div class="doctor-specialty"><%= doctor.specialty %></div>
+                  </div>
+                </div>
+                <div class="doctor-stats">
+                  <div class="stat-item">
+                    <div class="stat-value"><%= doctor.appointmentCount %></div>
+                    <div class="stat-label-small">Appointments</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value"><%= doctor.workInfo ? doctor.workInfo.experience : 'N/A' %></div>
+                    <div class="stat-label-small">Years Exp.</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-value"><%= doctor.workInfo ? doctor.workInfo.hospital : 'N/A' %></div>
+                    <div class="stat-label-small">Hospital</div>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="empty-state">
+            <i class="fas fa-user-md"></i>
+            <h3>No doctors available at the moment</h3>
+            <p>Check back later for our expert medical professionals</p>
+          </div>
+        <% } %>
+      </div>
+    </section>
     
     <div id="services"></div>
     <span >
@@ -141,6 +414,48 @@
         </div>
       </div>
       
+    </section>
+
+    <!-- Recent Reviews Section -->
+    <section class="reviews-section">
+      <div class="featured-container">
+        <h2 class="section-title">What Our Patients Say</h2>
+        <% if (recentReviews && recentReviews.length > 0) { %>
+          <div class="reviews-grid">
+            <% recentReviews.forEach(review => { %>
+              <div class="review-card">
+                <div class="review-header">
+                  <% if (review.imageUrl) { %>
+                    <img src="<%= review.imageUrl %>" alt="<%= review.createdBy.firstName %>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 1rem;">
+                  <% } else { %>
+                    <div class="reviewer-avatar">
+                      <%= review.createdBy.firstName.charAt(0) %><%= review.createdBy.lastName.charAt(0) %>
+                    </div>
+                  <% } %>
+                  <div class="reviewer-info">
+                    <h4><%= review.createdBy.firstName %> <%= review.createdBy.lastName %></h4>
+                    <div class="review-date"><%= new Date(review.createdAt).toLocaleDateString() %></div>
+                  </div>
+                </div>
+                <div class="review-content">
+                  "<%= review.content %>"
+                </div>
+                <% if (review.doctorId) { %>
+                  <div class="review-doctor">
+                    - Dr. <%= review.doctorId.firstName %> <%= review.doctorId.lastName %> (<%= review.doctorId.specialty %>)
+                  </div>
+                <% } %>
+              </div>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="empty-state">
+            <i class="fas fa-comments"></i>
+            <h3>No reviews yet</h3>
+            <p>Be the first to share your experience with our doctors</p>
+          </div>
+        <% } %>
+      </div>
     </section>
 
     <section class="about-us">

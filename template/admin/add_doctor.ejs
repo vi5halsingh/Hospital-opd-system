@@ -3,168 +3,524 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Doctor</title>
+    <title><%= (doctor && doctor._id) ? 'Edit Doctor' : 'Add Doctor' %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            background-color: #f8f9fc;
+            font-family: 'Nunito', sans-serif;
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+            z-index: 1000;
+            transition: all 0.3s;
         }
-        h1, h2 {
-            text-align: center;
-            color: #333;
+        
+        .sidebar-brand {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        form {
-            background: #fff;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        
+        .sidebar-nav {
+            padding: 1rem 0;
         }
-        .form-group {
-            margin-bottom: 15px;
+        
+        .nav-item {
+            margin: 0.5rem 1rem;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
+        
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 0.35rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
         }
-        .form-group input[type="file"] {
-            padding: 3px;
+        
+        .nav-link i {
+            margin-right: 0.5rem;
+            width: 20px;
         }
-        input[type="submit"] {
-            background: #28a745;
-            color: #fff;
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 1.5rem;
+        }
+        
+        .topbar {
+            background: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem 1.25rem;
+            font-weight: bold;
+            color: #5a5c69;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem 1.25rem;
+            font-weight: bold;
+            color: #5a5c69;
+        }
+        
+        .form-section-body {
+            padding: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #5a5c69;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #d1d3e2;
+            border-radius: 0.35rem;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(180deg, var(--success-color) 0%, #17a673 100%);
             border: none;
-            cursor: pointer;
-            padding: 15px;
-            font-size: 18px;
-            width: 100%;
-            border-radius: 10px;
+            border-radius: 0.35rem;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s;
         }
-        input[type="submit"]:hover {
-            background: #218838;
+        
+        .btn-submit:hover {
+            background: linear-gradient(180deg, #17a673 0%, #13855c 100%);
+            transform: translateY(-1px);
+        }
+        
+        .alert {
+            border-radius: 0.35rem;
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Add Doctor Form</h1>
-        <form id="addDoctorForm" action="/api/user/add-doctor" method="POST">
-            <!-- Doctor Information -->
-            <div class="form-group">
-                <h2>Doctor Information</h2>
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
-                
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-                
-                <label for="title">Title</label>
-                <select id="title" name="title" required>
-                    <option value="Dr.">Dr.</option>
-                    <option value="Prof.">Prof.</option>
-                </select>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-hospital me-2"></i>
+            Admin Panel
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/doctors" class="nav-link">
+                    <i class="bi bi-person-badge"></i>
+                    Doctors
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/doctors/add" class="nav-link active">
+                    <i class="bi bi-person-plus"></i>
+                    Add Doctor
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/patients" class="nav-link">
+                    <i class="bi bi-people"></i>
+                    Patients
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/appointments" class="nav-link">
+                    <i class="bi bi-calendar-check"></i>
+                    Appointments
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/notifications" class="nav-link">
+                    <i class="bi bi-bell"></i>
+                    Notifications
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="bi bi-gear"></i>
+                    Settings
+                </a>
+            </div>
+            <div class="nav-item mt-4">
+                <a href="/admin/logout" class="nav-link text-danger">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
 
-                <label for="specialty">Specialty</label>
-                <input type="text" id="specialty" name="specialty" required>
-            </div>  
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0 text-gray-800">
+                    <i class="bi bi-person-plus me-2"></i>
+                    <%= (doctor && doctor._id) ? 'Edit Doctor' : 'Add New Doctor' %>
+                </h1>
+                <div class="d-flex align-items-center">
+                    <a href="/admin/doctors" class="btn btn-outline-secondary me-3">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back to Doctors
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <% if (typeof errorMessage !== 'undefined' && errorMessage && errorMessage.length > 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                <%= errorMessage %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <% } %>
+        
+        <% if (typeof successMessage !== 'undefined' && successMessage && successMessage.length > 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                <%= successMessage %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <% } %>
+
+        <!-- Doctor Form -->
+        <form id="addDoctorForm" action="<%= (doctor && doctor._id) ? ('/admin/doctors/edit/' + doctor._id) : '/admin/doctors/add' %>" method="POST">
+            <!-- Doctor Information -->
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-person-badge me-2"></i>
+                    Doctor Information
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" required 
+                                       value="<%= (doctor && doctor.firstName) ? doctor.firstName : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" required 
+                                       value="<%= (doctor && doctor.lastName) ? doctor.lastName : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title *</label>
+                                <select class="form-select" id="title" name="title" required>
+                                    <option value="Dr." <%= (doctor && doctor.title === 'Dr.') ? 'selected' : '' %>>Dr.</option>
+                                    <option value="Prof." <%= (doctor && doctor.title === 'Prof.') ? 'selected' : '' %>>Prof.</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="specialty" class="form-label">Specialty *</label>
+                                <input type="text" class="form-control" id="specialty" name="specialty" required 
+                                       value="<%= (doctor && doctor.specialty) ? doctor.specialty : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Contact Information -->
-            <div class="form-group">
-                <h2>Contact Information</h2>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="phoneNumber">Phone Number</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required>
-                
-                <label for="address">Address</label>
-                <textarea id="address" name="address" required></textarea>
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-envelope me-2"></i>
+                    Contact Information
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" required 
+                                       value="<%= (doctor && doctor.contactInfo && doctor.contactInfo.email) ? doctor.contactInfo.email : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required 
+                                       value="<%= (doctor && doctor.contactInfo && doctor.contactInfo.phoneNumber) ? doctor.contactInfo.phoneNumber : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address *</label>
+                        <textarea class="form-control" id="address" name="address" rows="3" required><%= (doctor && doctor.contactInfo && doctor.contactInfo.address) ? doctor.contactInfo.address : '' %></textarea>
+                    </div>
+                </div>
             </div>
 
             <!-- Qualifications -->
-            <div class="form-group">
-                <h2>Qualifications</h2>
-                <label for="medicalSchool">Medical School</label>
-                <input type="text" id="medicalSchool" name="medicalSchool" required>
-                
-                <label for="degree">Degree</label>
-                <input type="text" id="degree" name="degree" required>
-                
-                <label for="licensureNumber">Licensure Number</label>
-                <input type="text" id="licensureNumber" name="licensureNumber" required>
-                
-                <label for="certification">Certification</label>
-                <input type="text" id="certification" name="certification">
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-award me-2"></i>
+                    Qualifications
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="medicalSchool" class="form-label">Medical School *</label>
+                                <input type="text" class="form-control" id="medicalSchool" name="medicalSchool" required 
+                                       value="<%= (doctor && doctor.qualifications && doctor.qualifications.medicalSchool) ? doctor.qualifications.medicalSchool : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="degree" class="form-label">Degree *</label>
+                                <input type="text" class="form-control" id="degree" name="degree" required 
+                                       value="<%= (doctor && doctor.qualifications && doctor.qualifications.degree) ? doctor.qualifications.degree : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="licensureNumber" class="form-label">Licensure Number *</label>
+                                <input type="text" class="form-control" id="licensureNumber" name="licensureNumber" required 
+                                       value="<%= (doctor && doctor.qualifications && doctor.qualifications.licensureNumber) ? doctor.qualifications.licensureNumber : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="certification" class="form-label">Certification</label>
+                                <input type="text" class="form-control" id="certification" name="certification" 
+                                       value="<%= (doctor && doctor.qualifications && doctor.qualifications.certification) ? doctor.qualifications.certification : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Work Information -->
-            <div class="form-group">
-                <h2>Work Information</h2>
-                <label for="hospital">Hospital/Clinic Name</label>
-                <input type="text" id="hospital" name="hospital" required>
-                
-                <label for="department">Department</label>
-                <input type="text" id="department" name="department" required>
-                
-                <label for="experience">Years of Experience</label>
-                <input type="number" id="experience" name="experience" required>
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-building me-2"></i>
+                    Work Information
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="hospital" class="form-label">Hospital/Clinic Name *</label>
+                                <input type="text" class="form-control" id="hospital" name="hospital" required 
+                                       value="<%= (doctor && doctor.workInfo && doctor.workInfo.hospital) ? doctor.workInfo.hospital : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="department" class="form-label">Department *</label>
+                                <input type="text" class="form-control" id="department" name="department" required 
+                                       value="<%= (doctor && doctor.workInfo && doctor.workInfo.department) ? doctor.workInfo.department : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">Years of Experience *</label>
+                        <input type="number" class="form-control" id="experience" name="experience" required min="0" max="50" 
+                               value="<%= (doctor && doctor.workInfo && doctor.workInfo.experience) ? doctor.workInfo.experience : '' %>">
+                    </div>
+                </div>
             </div>
 
             <!-- Availability -->
-            <div class="form-group">
-                <h2>Availability</h2>
-                <label for="days">Days of the Week Available</label>
-                <input type="text" id="days" name="days" placeholder="e.g., Monday to Friday" required>
-                
-                <label for="startTime">Start Time</label>
-                <input type="time" id="startTime" name="startTime" required>
-                
-                <label for="endTime">End Time</label>
-                <input type="time" id="endTime" name="endTime" required>
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-calendar-check me-2"></i>
+                    Availability
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="days" class="form-label">Days of the Week Available *</label>
+                                <input type="text" class="form-control" id="days" name="days" placeholder="e.g., Monday to Friday" required 
+                                       value="<%= (doctor && doctor.availability && doctor.availability.days) ? doctor.availability.days : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="startTime" class="form-label">Start Time *</label>
+                                <input type="time" class="form-control" id="startTime" name="startTime" required 
+                                       value="<%= (doctor && doctor.availability && doctor.availability.startTime) ? doctor.availability.startTime : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="endTime" class="form-label">End Time *</label>
+                                <input type="time" class="form-control" id="endTime" name="endTime" required 
+                                       value="<%= (doctor && doctor.availability && doctor.availability.endTime) ? doctor.availability.endTime : '' %>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <h2>authentication Information</h2>
-                <label for="userName">Username</label>
-                <input type="text" id="userName" name="userName" placeholder="situable username" required>
-                
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+            <!-- Authentication Information -->
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="bi bi-shield-lock me-2"></i>
+                    Authentication Information
+                </div>
+                <div class="form-section-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Username *</label>
+                                <input type="text" class="form-control" id="userName" name="userName" placeholder="Suitable username" required 
+                                       value="<%= (doctor && doctor.authentication_Information && doctor.authentication_Information.userName) ? doctor.authentication_Information.userName : '' %>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">
+                                    Password <%= (doctor && doctor._id) ? '' : '*' %>
+                                </label>
+                                <input type="password" class="form-control" id="password" name="password" 
+                                       <%= (doctor && doctor._id) ? '' : 'required' %> 
+                                       placeholder="<%= (doctor && doctor._id) ? 'Leave blank to keep current password' : 'Enter password' %>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-           
-           
-            <input type="submit" value="Add Doctor">
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-submit btn-lg">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <%= (doctor && doctor._id) ? 'Update Doctor' : 'Add Doctor' %>
+                </button>
+            </div>
         </form>
     </div>
-    <% if (errorMessage && errorMessage.length > 0) { %>
-        <script>
-          alert('<%= errorMessage %>');
-      </script>
-    <% } %>
-    
-    <% if (successMessage && successMessage.length > 0) { %>
-      <script>
-          alert('<%= successMessage %>');
-      </script>
-    <% } %>
-    <script> 
-        document.getElementById('addDoctorForm').onsubmit = function() {
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation
+        document.getElementById('addDoctorForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const isEdit = '<%= (doctor && doctor._id) ? "true" : "false" %>' === 'true';
+            
+            if (!isEdit && !password) {
+                e.preventDefault();
+                alert('Password is required for new doctors.');
+                return false;
+            }
+            
+            if (password && password.length < 6) {
+                e.preventDefault();
+                alert('Password must be at least 6 characters long.');
+                return false;
+            }
+            
             return confirm('Are you sure you want to submit the form?');
-        };
+        });
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
     </script>
 </body>
 </html>

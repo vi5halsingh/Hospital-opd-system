@@ -1,43 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin || Patient</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+        }
+        
+        body {
+            background-color: #f8f9fc;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-brand {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .nav-item {
+            margin: 0.5rem 1rem;
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 0.35rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .nav-link i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 1.5rem;
+        }
+        
+        .topbar {
+            background: white;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem 1.25rem;
+            font-weight: bold;
+            color: #5a5c69;
+        }
+        
+        .table th {
+            background-color: #f8f9fc;
+            border-top: none;
+            font-weight: 600;
+            color: #5a5c69;
+        }
+        
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, var(--success-color) 0%, #17a673 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
 <body>
- 
-  
-<h2>Patients</h2>
-<div class="mb-3">
-  <a href="/admin/patients/add" class="btn btn-success">Add New Patient</a>
-</div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Gender</th>
-      <th>Contact</th>
-      <th>Address</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% patients.forEach(patient => { %>
-      <tr>
-        <td><%= patient.firstName %> <%= patient.lastName %></td>
-        <td><%= patient.dob %></td>
-        <td><%= patient.category %></td>
-        <td><%= patient.phoneNumber %></td>
-        <td><%= patient.address %></td>
-        <td>
-          <a href="/admin/patients/edit/<%= patient._id %>" class="btn btn-primary btn-sm">Edit</a>
-          <a href="/admin/patients/delete/<%= patient._id %>" class="btn btn-danger btn-sm">Delete</a>
-        </td>
-      </tr>
-    <% }); %>
-  </tbody>
-</table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="bi bi-hospital me-2"></i>
+            Admin Panel
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/doctors" class="nav-link">
+                    <i class="bi bi-person-badge"></i>
+                    Doctors
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/doctors/add" class="nav-link">
+                    <i class="bi bi-person-plus"></i>
+                    Add Doctor
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/patients" class="nav-link active">
+                    <i class="bi bi-people"></i>
+                    Patients
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/appointments" class="nav-link">
+                    <i class="bi bi-calendar-check"></i>
+                    Appointments
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/notifications" class="nav-link">
+                    <i class="bi bi-bell"></i>
+                    Notifications
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="bi bi-gear"></i>
+                    Settings
+                </a>
+            </div>
+            <div class="nav-item mt-4">
+                <a href="/admin/logout" class="nav-link text-danger">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0 text-gray-800">
+                    <i class="bi bi-people me-2"></i>
+                    Patients Management
+                </h1>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="content-card">
+            <div class="card-header">
+                <i class="bi bi-search me-2"></i>
+                Search & Filters
+            </div>
+            <div class="p-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search patients...">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="ageFilter">
+                            <option value="">All Ages</option>
+                            <option value="0-18">0-18</option>
+                            <option value="19-30">19-30</option>
+                            <option value="31-50">31-50</option>
+                            <option value="51+">51+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-primary w-100" onclick="clearFilters()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients Table -->
+        <div class="content-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="bi bi-people me-2"></i>
+                    Patients (<span id="patientCount"><%= patients.length %></span>)
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="exportToCSV()">
+                        <i class="bi bi-download me-1"></i>Export
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="printTable()">
+                        <i class="bi bi-printer me-1"></i>Print
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0" id="patientsTable">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Contact</th>
+                            <th>Age/Gender</th>
+                            <th>Medical History</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% patients.forEach(patient => { %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="patient-avatar me-3">
+                                            <%= patient.firstName.charAt(0) %><%= patient.lastName.charAt(0) %>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold"><%= patient.firstName %> <%= patient.lastName %></div>
+                                            <small class="text-muted">ID: <%= patient._id %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold"><%= patient.email %></div>
+                                    <small class="text-muted"><%= patient.phoneNumber %></small>
+                                </td>
+                                <td>
+                                    <div class="fw-bold"><%= patient.age %> years</div>
+                                    <small class="text-muted"><%= patient.gender %></small>
+                                </td>
+                                <td>
+                                    <div class="fw-bold"><%= patient.medicalHistory ? patient.medicalHistory.length : 0 %> records</div>
+                                    <small class="text-muted">Last visit: <%= patient.lastVisit ? new Date(patient.lastVisit).toLocaleDateString() : 'Never' %></small>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-<%= patient.status ? 'active' : 'inactive' %>">
+                                        <%= patient.status ? 'Active' : 'Inactive' %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-info btn-sm" title="View Details" 
+                                                onclick="viewPatient('<%= patient._id %>')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" title="Edit" 
+                                                onclick="editPatient('<%= patient._id %>')">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm" title="Medical Records" 
+                                                onclick="viewMedicalRecords('<%= patient._id %>')">
+                                            <i class="bi bi-file-medical"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Details Modal -->
+    <div class="modal fade" id="patientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Patient Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="patientModalBody">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical Records Modal -->
+    <div class="modal fade" id="medicalRecordsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Medical Records</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="medicalRecordsBody">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            filterPatients();
+        });
+
+        // Filter functionality
+        document.getElementById('ageFilter').addEventListener('change', filterPatients);
+        document.getElementById('statusFilter').addEventListener('change', filterPatients);
+
+        function filterPatients() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const ageFilter = document.getElementById('ageFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            const rows = document.querySelectorAll('#patientsTable tbody tr');
+            
+            rows.forEach(row => {
+                const patientName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                const age = parseInt(row.querySelector('td:nth-child(3)').textContent);
+                const status = row.querySelector('td:nth-child(5)').textContent.trim();
+                
+                const searchMatch = !searchTerm || patientName.includes(searchTerm);
+                const ageMatch = !ageFilter || checkAgeRange(age, ageFilter);
+                const statusMatch = !statusFilter || status === statusFilter;
+                
+                row.style.display = searchMatch && ageMatch && statusMatch ? '' : 'none';
+            });
+            
+            updateCount();
+        }
+
+        function checkAgeRange(age, range) {
+            switch(range) {
+                case '0-18': return age >= 0 && age <= 18;
+                case '19-30': return age >= 19 && age <= 30;
+                case '31-50': return age >= 31 && age <= 50;
+                case '51+': return age >= 51;
+                default: return true;
+            }
+        }
+
+        function updateCount() {
+            const visibleRows = document.querySelectorAll('#patientsTable tbody tr:not([style*="display: none"])');
+            document.getElementById('patientCount').textContent = visibleRows.length;
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('ageFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            
+            const rows = document.querySelectorAll('#patientsTable tbody tr');
+            rows.forEach(row => row.style.display = '');
+            updateCount();
+        }
+
+        function viewPatient(patientId) {
+            // Load patient details via AJAX
+            fetch(`/admin/patients/${patientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const patient = data.patient;
+                        document.getElementById('patientModalBody').innerHTML = `
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Personal Information</h6>
+                                    <p><strong>Name:</strong> ${patient.firstName} ${patient.lastName}</p>
+                                    <p><strong>Age:</strong> ${patient.age} years</p>
+                                    <p><strong>Gender:</strong> ${patient.gender}</p>
+                                    <p><strong>Date of Birth:</strong> ${patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString() : 'Not specified'}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Contact Information</h6>
+                                    <p><strong>Email:</strong> ${patient.email}</p>
+                                    <p><strong>Phone:</strong> ${patient.phoneNumber}</p>
+                                    <p><strong>Address:</strong> ${patient.address || 'Not specified'}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <h6>Medical Information</h6>
+                                    <p><strong>Blood Group:</strong> ${patient.bloodGroup || 'Not specified'}</p>
+                                    <p><strong>Allergies:</strong> ${patient.allergies || 'None'}</p>
+                                    <p><strong>Emergency Contact:</strong> ${patient.emergencyContact || 'Not specified'}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Registration Information</h6>
+                                    <p><strong>Registration Date:</strong> ${new Date(patient.createdAt).toLocaleDateString()}</p>
+                                    <p><strong>Last Visit:</strong> ${patient.lastVisit ? new Date(patient.lastVisit).toLocaleDateString() : 'Never'}</p>
+                                    <p><strong>Status:</strong> <span class="status-badge status-${patient.status ? 'active' : 'inactive'}">${patient.status ? 'Active' : 'Inactive'}</span></p>
+                                </div>
+                            </div>
+                        `;
+                        new bootstrap.Modal(document.getElementById('patientModal')).show();
+                    } else {
+                        alert('Error loading patient details');
+                    }
+                });
+        }
+
+        function editPatient(patientId) {
+            window.location.href = `/admin/patients/edit/${patientId}`;
+        }
+
+        function viewMedicalRecords(patientId) {
+            // Load medical records via AJAX
+            fetch(`/admin/patients/${patientId}/records`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const records = data.records;
+                        let recordsHtml = '<div class="table-responsive"><table class="table table-striped">';
+                        recordsHtml += '<thead><tr><th>Date</th><th>Doctor</th><th>Diagnosis</th><th>Treatment</th><th>Notes</th></tr></thead><tbody>';
+                        
+                        if (records.length === 0) {
+                            recordsHtml += '<tr><td colspan="5" class="text-center">No medical records found</td></tr>';
+                        } else {
+                            records.forEach(record => {
+                                recordsHtml += `
+                                    <tr>
+                                        <td>${new Date(record.date).toLocaleDateString()}</td>
+                                        <td>${record.doctorName}</td>
+                                        <td>${record.diagnosis}</td>
+                                        <td>${record.treatment}</td>
+                                        <td>${record.notes || '-'}</td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        
+                        recordsHtml += '</tbody></table></div>';
+                        document.getElementById('medicalRecordsBody').innerHTML = recordsHtml;
+                        new bootstrap.Modal(document.getElementById('medicalRecordsModal')).show();
+                    } else {
+                        alert('Error loading medical records');
+                    }
+                });
+        }
+
+        function exportToCSV() {
+            const table = document.getElementById('patientsTable');
+            const rows = Array.from(table.querySelectorAll('tr'));
+            
+            let csv = [];
+            rows.forEach(row => {
+                const cols = Array.from(row.querySelectorAll('td, th'));
+                const rowData = cols.map(col => {
+                    const text = col.textContent.replace(/\s+/g, ' ').trim();
+                    return `"${text}"`;
+                });
+                csv.push(rowData.join(','));
+            });
+            
+            const csvContent = csv.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'patients.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function printTable() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
