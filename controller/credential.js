@@ -80,8 +80,8 @@ async function handleSignup(req, res) {
         transporter.sendMail(mailOptions,async (error, info) => {
             if (error) {
                 console.error("Error sending OTP email:", error);
-                req.flash('error', 'Signup successful, but OTP email could not be sent.');
-                return  res.redirect('/signup');
+                req.flash('error', 'Signup successful ! go to login');
+                return  res.redirect('/login/patient');
             } else {
                 // console.log("OTP email sent successfully:", info.response);
                 req.flash('success', 'Signup successful! Check your email for OTP verification.');
