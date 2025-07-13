@@ -27,7 +27,7 @@
             left: 0;
             height: 100vh;
             width: 250px;
-            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+            background: var(--success-color);
             z-index: 1000;
             transition: all 0.3s;
         }
@@ -244,17 +244,17 @@
                     <div class="col-md-4">
                         <input type="text" class="form-control" id="searchInput" placeholder="Search doctors...">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display: none;">
                         <select class="form-select" id="specialtyFilter">
                             <option value="">All Specialties</option>
-                            <option value="Cardiology">Cardiology</option>
-                            <option value="Neurology">Neurology</option>
-                            <option value="Pediatrics">Pediatrics</option>
-                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="cardiologist">Cardiology</option>
+                            <option value=neurologist">Neurology</option>
+                            <option value="pediatricien">Pediatrics</option>
+                            <option value="Orthopedics">orthopedic</option>
                             <option value="Dermatology">Dermatology</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div style="display: none;" class="col-md-3">
                         <select class="form-select" id="statusFilter">
                             <option value="">All Status</option>
                             <option value="Active">Active</option>
@@ -287,14 +287,14 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover mb-0" id="doctorsTable">
+                <table class="table table-hover mb-0 w-full" id="doctorsTable">
                     <thead>
                         <tr>
                             <th>Doctor</th>
                             <th>Specialty</th>
                             <th>Contact</th>
                             <th>Experience</th>
-                            <th>Status</th>
+                            <!-- <th>Status</th> -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -324,11 +324,11 @@
                                     <div class="fw-bold"><%= doctor.workInfo.experience %> years</div>
                                     <small class="text-muted"><%= doctor.workInfo.hospital %></small>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <span class="status-badge status-<%= doctor.status ? 'active' : 'inactive' %>">
                                         <%= doctor.status ? 'Active' : 'Inactive' %>
                                     </span>
-                                </td>
+                                </td> -->
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="/admin/doctors/edit/<%= doctor._id %>" class="btn btn-outline-primary btn-sm" title="Edit">
@@ -384,6 +384,7 @@
         function filterDoctors() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const specialtyFilter = document.getElementById('specialtyFilter').value;
+            // console.log("specialtyFilter", specialtyFilter)
             const statusFilter = document.getElementById('statusFilter').value;
             
             const rows = document.querySelectorAll('#doctorsTable tbody tr');

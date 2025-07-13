@@ -86,7 +86,7 @@ const doctorSchema = new mongoose.Schema({
   authentication_Information: {
     userName: {
       type: String,
-      required: true
+     
     },
     password: {
       type: String,

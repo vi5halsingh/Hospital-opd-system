@@ -33,9 +33,7 @@ async function addDoctors(req, res) {
       !specialty || 
       !email || 
       !phoneNumber || 
-      !licensureNumber || 
-      !certification || 
-      !userName || 
+     
       !password
     ) {
       req.flash("error", "Please fill in all the required fields.");

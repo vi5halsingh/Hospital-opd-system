@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
             specialtyStats
         ] = await Promise.all([
             // Total counts
-            Doctor.countDocuments({ status: true }),
+            Doctor.countDocuments(),
             Signupdetail.countDocuments({ userType: 'patient' }),
             AppointmentSchema.countDocuments(),
             AppointmentSchema.countDocuments({ status: 'new' }),
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
             
             // Featured doctors (top 6 with most appointments)
             Doctor.aggregate([
-                { $match: { status: true } },
+             
                 {
                     $lookup: {
                         from: 'appointments',
@@ -66,7 +66,7 @@ router.get('/', async (req, res) => {
                 { $limit: 8 }
             ])
         ]);
-
+// console.log("featuredDoctors", featuredDoctors);
         // Get profile images for featured doctors
         const featuredDoctorsWithImages = await Promise.all(
             featuredDoctors.map(async (doctor) => {

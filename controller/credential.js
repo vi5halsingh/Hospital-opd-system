@@ -45,7 +45,7 @@ async function handleSignup(req, res) {
     }
 
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const edPassword = await bcrypt.hash(password, saltRounds);
 
     // Generate a 6-digit OTP
     const otp = crypto.randomInt(100000, 999999);
@@ -190,7 +190,7 @@ async function doctorLogin(req, res) {
        
         const token = setdoctor(doctor);
         res.cookie("token", token);
-        if (doctor.userType === "staff") {
+        if (doctor.userType === "doctor") {
             return res.redirect('/api/staff');
         } else {
             req.flash('error', ' I think u have chosen wrong usertype by mistake');

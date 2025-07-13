@@ -24,10 +24,13 @@
   
   <style>
     .stats-section {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+      background: var(--primary-color);
       color: white;
       padding: 3rem 0;
       margin: 2rem 0;
+      border-radius:10px;
+      overflow-x:hidden;
     }
     
     .stats-container {
@@ -164,7 +167,7 @@
       background: #f8f9fa;
       border-radius: 15px;
       padding: 1.5rem;
-      border-left: 4px solid #667eea;
+      border-left: 4px solid var(--primary-color);
     }
     
     .review-header {
@@ -237,31 +240,7 @@
         </div>
       </div>
       
-      <!-- Statistics Section -->
-      <section class="stats-section">
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="stat-number"><%= totalDoctors %></div>
-            <div class="stat-label">Expert Doctors</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number"><%= totalPatients %></div>
-            <div class="stat-label">Happy Patients</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number"><%= totalAppointments %></div>
-            <div class="stat-label">Appointments</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number"><%= successRate %>%</div>
-            <div class="stat-label">Success Rate</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number"><%= todaysAppointments %></div>
-            <div class="stat-label">Today's Appointments</div>
-          </div>
-        </div>
-      </section>
+    
       
       <section class="banner">
         <div class="slides-container">
@@ -271,6 +250,7 @@
           </div>
         </div>
       </section>
+      
       
       <section class="quick-links">
         <div class="link link1" id="nearest-doctors">
@@ -308,7 +288,31 @@
           </div>
         <% }) %>
       </section>
-      
+        <!-- Statistics Section -->
+        <section class="stats-section">
+          <div class="stats-container">
+            <div class="stat-card">
+              <div class="stat-number"><%= totalDoctors %></div>
+              <div class="stat-label">Expert Doctors</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number"><%= totalPatients %></div>
+              <div class="stat-label">Happy Patients</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number"><%= totalAppointments %></div>
+              <div class="stat-label">Appointments</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number"><%= successRate %>%</div>
+              <div class="stat-label">Success Rate</div>
+            </div>
+            <!-- <div class="stat-card">
+              <div class="stat-number"><%= todaysAppointments %></div>
+              <div class="stat-label">Today's Appointments</div>
+            </div> -->
+          </div>
+        </section>
     </div>
     
     <!-- Featured Doctors Section -->
@@ -529,7 +533,7 @@
                 <textarea name="message" placeholder="Your Message" class="input-field789012" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
             </div>
     
-            <button class="submit-button" type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+            <button class="submit-button" type="submit" style="width: 100%; padding: 10px; background:var(--primary-color) ; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
                 Submit
             </button>
         </form>
@@ -543,7 +547,7 @@
         <div class="column">
           <h4>Company</h4>
           <ul>
-            <li><a href="#">About Us</a></li>
+            <li><a href="http://localhost:3000/#about">About Us</a></li>
             <li><a href="#">Careers</a></li>
             <li><a href="#">Press</a></li>
             <li><a href="#">Blog</a></li>
@@ -567,7 +571,7 @@
         </div>
         <div class="column">
           <h4>Follow Us</h4>
-          <div class="social-links" style="">
+          <div class="social-links">
             <a href="https://github.com/vi5halsingh"><i class="fab fa-github"></i></a>
             <a href="https://discord.gg/mYRPbM6F"><i class="fab fa-discord"></i></a>
             <a href="https://www.instagram.com/vi5hal.dev?igsh=MTc4MWV1dmxpMmkwbA=="><i class="fab fa-instagram"></i></a>
@@ -580,9 +584,9 @@
   </main>
   <div id="loginModal" class="modal" style="z-index: 1080;">
     <!-- <span class="close" onclick="closeModal()">&times;</span> -->
-    <div class="modal-content">
-      <a href="/login/doctor">Doctor Login</a>
-      <a href="/login/patient">Patient Login</a>
+    <div class="modal-content" style="background: var(--primary-color);color: white;">
+      <a style="text-decoration: none; color: white;" href="/login/doctor">Doctor Login</a>
+      <a style="text-decoration: none; color: white;" href="/login/patient">Patient Login</a>
     </div>
   </div>
   

@@ -120,10 +120,12 @@ select {
 .content-box9302 {
     width: 90%;
     /* border:2px solid; */
-    display: flex;
+    
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-y:auto
 }
 
 .profile-overview {
@@ -305,7 +307,7 @@ select {
   
   .sidebar {
     width: 200px;
-    background-color: #6c63ff;
+    background-color: var();
     color: white;
     padding: 20px;
   }

@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { Signupdetail } = require('../../models/signupSchema');
 const bcrypt = require('bcrypt');
 
@@ -13,7 +14,9 @@ async function adminLogin(req, res) {
     if (!isMatch) {
       return res.render('admin/admin-login', { errorMessage: 'Invalid credentials.' });
     }
-    // Set session
+    // console.log(admin)
+  //  const token =await jwt.sign(admin, 10)
+    // req.cookie("token" , token)
     req.session.adminId = admin._id;
     req.session.isAdmin = true;
     res.redirect('/admin/dashboard');

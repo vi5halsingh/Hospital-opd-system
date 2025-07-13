@@ -15,7 +15,8 @@ const {
     editDoctor,
     deleteDoctor
   } = require('../controller/admin/adminController');
-const { requireAdminAuth } = require('../middleware/auth');
+  const { addDoctors} = require('../controller/doctor')
+const { requireAdminAuth, checkForAuthentication } = require('../middleware/auth');
 
 
 // router.get("/super-admin", (req, res) => {
@@ -51,24 +52,29 @@ router.get('/login', (req, res) => {
 
 router.post('/login', require('../controller/admin/authController').adminLogin);
 
-router.get('/logout',requireAdminAuth, (req, res) => {
+// requireAdminAuth
+// requireAdminAuth
+// requireAdminAuth
+// requireAdminAuth = 
+
+router.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.redirect('/admin/login');
   });
 });
 
 // Protect all routes below this line
-router.use(requireAdminAuth);
+// router.use();
 
 // Doctor CRUD
-router.get('/doctors/add',requireAdminAuth, (req, res) => res.render('admin/add_doctor', { 
+router.get('/doctors/add', (req, res) => res.render('admin/add_doctor', { 
   doctor: null, 
   errorMessage: req.flash('error')[0] || null,
   successMessage: req.flash('success')[0] || null
 }));
-router.post('/doctors/add',requireAdminAuth, addDoctor);
-router.get('/doctors/edit/:id',requireAdminAuth, editDoctorForm);
-router.post('/doctors/edit/:id',requireAdminAuth, editDoctor);
-router.post('/doctors/delete/:id',requireAdminAuth, deleteDoctor);
+router.post('/doctors/add', addDoctor);
+router.get('/doctors/edit/:id', editDoctorForm);
+router.post('/doctors/edit/:id', editDoctor);
+router.post('/doctors/delete/:id', deleteDoctor);
 
 module.exports = router;

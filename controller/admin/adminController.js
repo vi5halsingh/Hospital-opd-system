@@ -1,7 +1,7 @@
 const {AppointmentSchema} = require('../../models/appintmentSchema');
 const Doctor = require('../../models/doctorSchema');
 const {Signupdetail} = require('../../models/signupSchema');
-
+const bcrypt = require('bcrypt')
 // Dashboard Overview
 const getDashboard = async (req, res) => {
     try {
@@ -125,7 +125,7 @@ const addDoctor = async (req, res) => {
       },
       authentication_Information: {
         userName: req.body.userName,
-        password: req.body.password,
+        password: await bcrypt.hash(req.body.password , 10),
       },
     };
     await Doctor.create(doctorData);
