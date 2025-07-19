@@ -1,13 +1,16 @@
 <header>
   <div class="header-container">
     <div class="logo">
-      <i class="fas fa-bars"  style="font-size: 1rem; color: var(--secondary-color); display: none;"></i> 
-      <i class="fas fa-times" onclick="closeMenu()" style="font-size: 1rem; color: var(--secondary-color); display: none;"></i> 
-      
+      <button id="openMenuBtn" class="hamburger" aria-label="Open navigation" style="background:none; border:none;">
+        <i class="fas fa-bars" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
+      </button>
+      <button id="closeMenuBtn" class="close-hamburger" aria-label="Close navigation" style="background:none; border:none;">
+        <i class="fas fa-times" style="font-size: 1.5rem; color: var(--secondary-color);"></i>
+      </button>
       <h1>e-OPD</h1>
     </div>
     <nav>
-      <ul>
+      <ul id="mainNav">
         <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="#services"><i class="fas fa-concierge-bell"></i> Services</a></li>
         <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
