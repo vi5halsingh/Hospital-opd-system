@@ -699,96 +699,164 @@ a:hover {
 
 /* Mobile Phones */
 @media (max-width: 768px) {
+  .container {
+    padding: 0 5px;
+  }
+  .quick-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
   .quick-links .link {
     width: 100%;
+    min-width: unset;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 16px;
   }
-
   .categories {
-    height: 400px;
-    /* flex-direction: column; */
-    /* overflow-y: visible; */
+    flex-direction: column;
+    height: auto;
+    overflow-y: visible;
+    margin-top: 2rem;
+    box-shadow: none;
   }
   .categories .category {
-    width: 90%;
-    margin: 10px auto;
+    width: 95%;
+    margin: 8px auto;
+    font-size: 1rem;
+    padding: 12px;
   }
-
-  .banner {
+  .stats-section {
     flex-direction: column;
-    text-align: center;
+    gap: 10px;
+    padding: 1.5rem 0;
   }
-
+  .stat {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 1rem;
+  }
+  .featured-section {
+    padding: 1.5rem 0;
+  }
+  .doctors-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .doctor-card {
+    padding: 1rem;
+  }
+  .reviews-section {
+    padding: 1.5rem 0;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .about-us {
+    padding: 1.5rem 0;
+  }
   .parent-container {
     flex-direction: column;
-  }
-
-  .stats-section {
-    flex-direction: column;
-  }
-
-  .our-services {
-    padding: 10px;
-    margin-top: 20px;
-  }
-  .card123 {
     width: 100%;
-    border-radius: 10px;
+    text-align: center;
   }
-
-  .connect {
-    padding: 10px;
+  .left-container img {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
   }
-}
-
-/* Small Mobile Phones */
-@media (max-width: 480px) {
-  .search-bar input {
-    width: 150px;
+  .right-container {
+    padding-left: 0;
+    text-align: center;
   }
-
-  .quick-links .link {
-    padding: 20px;
+  .hospitals {
+    padding: 1.5rem 0;
   }
-
-  .stats-section {
-    gap: 20px;
-  }
-
   .slideshow-container {
+    max-width: 100vw;
     max-height: 200px;
   }
-
-  .banner {
-    padding: 10px;
+  .mySlides img {
+    width: 100%;
+    height: auto;
   }
-
+  .connect {
+    padding: 1rem 0.5rem;
+  }
+  .container403409 {
+    padding: 0;
+  }
   footer {
     padding: 10px;
+    font-size: 0.9rem;
+  }
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-container ul {
+    margin: 10px 0;
+  }
+}
+@media (max-width: 480px) {
+  .hero-header h1 {
+    font-size: 1.2rem;
+  }
+  .search-bar {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .search-bar input {
+    width: 100%;
+    min-width: 0;
+    font-size: 1rem;
+  }
+  .quick-links .link {
+    padding: 10px;
+  }
+  .categories .category {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+  .stat {
+    font-size: 0.95rem;
+    padding: 0.7rem;
+  }
+  .doctor-card, .review-card {
+    padding: 0.7rem;
+  }
+  .left-container img {
+    max-width: 200px;
+  }
+  .slideshow-container {
+    max-height: 120px;
+  }
+  .about-us, .featured-section, .reviews-section, .hospitals {
+    padding: 1rem 0.2rem;
+  }
+  .footer-container {
     font-size: 0.8rem;
   }
 }
-
-/* Extra Small Devices */
-@media (max-width: 250px) {
+@media (max-width: 360px) {
   .hero-header h1 {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
-
-  .search-bar input {
-    width: 120px;
-    font-size: 0.9rem;
-  }
-
-  .banner {
-    padding: 5px;
-  }
-
   .categories .category {
     font-size: 0.8rem;
-    padding: 10px;
+    padding: 7px;
   }
-
-  footer {
-    padding: 5px;
+  .stat {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+  .doctor-card, .review-card {
+    padding: 0.5rem;
+  }
+  .left-container img {
+    max-width: 120px;
   }
 }

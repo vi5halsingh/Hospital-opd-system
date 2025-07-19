@@ -70,22 +70,41 @@ document.getElementById('nearest-doctors').addEventListener('click', function() 
 });
 
 
-const menu = document.querySelector("nav ul")
-const close = document.querySelector(".fas fa-times")
-const open = document.querySelector(".fas fa-bars")
-
-open.addEventListener('click', () =>{
-  menu.style.display = "none ? flex : flex"
-
-})
-
- async function commingSoon(){
+async function commingSoon(){
 alert("this service will be comming soon pleas! stay tune with us")
 }
 async function bookAppointmnet(){
   // window.location.href ='/nearest-doctors';
   window.location.href = '/api/appointment-booking'
   }
+
+// Hamburger menu functionality for mobile
+const openMenuBtn = document.getElementById('openMenuBtn');
+const closeMenuBtn = document.getElementById('closeMenuBtn');
+const mainNav = document.getElementById('mainNav');
+
+function openMenu() {
+  mainNav.classList.add('open');
+  openMenuBtn.style.display = 'none';
+  closeMenuBtn.style.display = 'inline-block';
+}
+function closeMenu() {
+  mainNav.classList.remove('open');
+  openMenuBtn.style.display = 'inline-block';
+  closeMenuBtn.style.display = 'none';
+}
+
+if (openMenuBtn && closeMenuBtn && mainNav) {
+  openMenuBtn.style.display = 'inline-block';
+  openMenuBtn.addEventListener('click', openMenu);
+  closeMenuBtn.addEventListener('click', closeMenu);
+  // Close menu when a nav link is clicked (on mobile)
+  mainNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) closeMenu();
+    });
+  });
+}
 
 
 
