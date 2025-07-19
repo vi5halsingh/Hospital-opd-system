@@ -45,7 +45,7 @@ async function handleSignup(req, res) {
     }
 
     const saltRounds = 10;
-    const edPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Generate a 6-digit OTP
     const otp = crypto.randomInt(100000, 999999);
