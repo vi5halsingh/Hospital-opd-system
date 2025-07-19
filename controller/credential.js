@@ -257,7 +257,7 @@ async function forget_pw(req, res) {
       to: email, // Ensure email is valid and not undefined
       subject: "Reset Password",
       html: `
-        <p>Click <a href="http://localhost:3000/forget-patient-password">here</a> to reset your password.</p>
+        <p>Click <a href="https://e-opd.onrender.com/forget-patient-password">here</a> to reset your password.</p>
       `,
     };
 

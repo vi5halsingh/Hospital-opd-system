@@ -102,23 +102,84 @@ router.get('/', async (req, res) => {
         });
 
         // Get top specialties
-        const topSpecialties = specialtyStats.map(stat => stat._id);
+        let topSpecialties = specialtyStats.map(stat => stat._id);
 
-        res.render('main-page/index', {
-            // Statistics
+        // --- DUMMY DATA FILLING ---
+        let dummyDoctors = [
+            {
+                firstName: "Dr. Priya",
+                lastName: "Sharma",
+                specialty: "Cardiologist",
+                imageUrl: "/main page/asset/doctors.png",
+                appointmentCount: 200,
+                _id: "dummy1"
+            },
+            {
+                firstName: "Dr. Rahul",
+                lastName: "Verma",
+                specialty: "Dermatologist",
+                imageUrl: "/main page/asset/doctors.png",
+                appointmentCount: 180,
+                _id: "dummy2"
+            },
+            {
+                firstName: "Dr. Anjali",
+                lastName: "Mehra",
+                specialty: "Pediatrician",
+                imageUrl: "/main page/asset/doctors.png",
+                appointmentCount: 150,
+                _id: "dummy3"
+            }
+        ];
+        let dummyReviews = [
+            {
+                createdBy: { firstName: "Amit", lastName: "Kumar" },
+                doctorId: { firstName: "Priya", lastName: "Sharma", specialty: "Cardiologist" },
+                rating: 5,
+                comment: "Excellent care and very professional.",
+                imageUrl: "/main page/asset/defalut user.jpg",
+                createdAt: new Date()
+            },
+            {
+                createdBy: { firstName: "Sunita", lastName: "Patel" },
+                doctorId: { firstName: "Rahul", lastName: "Verma", specialty: "Dermatologist" },
+                rating: 4,
+                comment: "Very helpful and friendly staff.",
+                imageUrl: "/main page/asset/defalut user.jpg",
+                createdAt: new Date()
+            }
+        ];
+        // Fill stats with dummy data if empty
+        let realStats = {
             totalDoctors,
             totalPatients,
             totalAppointments,
             pendingAppointments,
             completedAppointments,
             todaysAppointments,
-            successRate,
-            
+            successRate
+        };
+        if (!realStats.totalDoctors) realStats.totalDoctors = "100+";
+        if (!realStats.totalPatients) realStats.totalPatients = "1500+";
+        if (!realStats.totalAppointments) realStats.totalAppointments = "3200+";
+        if (!realStats.pendingAppointments) realStats.pendingAppointments = 12;
+        if (!realStats.completedAppointments) realStats.completedAppointments = 3188;
+        if (!realStats.todaysAppointments) realStats.todaysAppointments = 25;
+        if (!realStats.successRate) realStats.successRate = 99;
+        let featuredDoctorsFinal = featuredDoctorsWithImages && featuredDoctorsWithImages.length > 0 ? featuredDoctorsWithImages : dummyDoctors;
+        let reviewsFinal = reviewsWithImages && reviewsWithImages.length > 0 ? reviewsWithImages : dummyReviews;
+        if (!topSpecialties || topSpecialties.length === 0) {
+            topSpecialties = [
+                "Cardiologist", "Dermatologist", "Orthopedic Surgeon", "Pediatrician"
+            ];
+        }
+        res.render('main-page/index', {
+            // Statistics
+            ...realStats,
             // Featured content
-            featuredDoctors: featuredDoctorsWithImages,
-            recentReviews: reviewsWithImages,
+            featuredDoctors: featuredDoctorsFinal,
+            recentReviews: reviewsFinal,
             topSpecialties,
-            
             // Categories (dynamic based on available specialties)
             categories: topSpecialties.length > 0 ? topSpecialties : [
                 "Cardiologist", "Dermatologist", "Orthopedic Surgeon", "Pediatrician", 
@@ -132,16 +193,60 @@ router.get('/', async (req, res) => {
         console.error('Error fetching home page data:', error);
         // Fallback to static data if there's an error
         res.render('main-page/index', {
-            totalDoctors: 0,
-            totalPatients: 0,
-            totalAppointments: 0,
-            pendingAppointments: 0,
-            completedAppointments: 0,
-            todaysAppointments: 0,
-            successRate: 0,
-            featuredDoctors: [],
-            recentReviews: [],
-            topSpecialties: [],
+            totalDoctors: 120,
+            totalPatients: 2500,
+            totalAppointments: 3200,
+            pendingAppointments: 12,
+            completedAppointments: 3188,
+            todaysAppointments: 25,
+            successRate: 99,
+            featuredDoctors: [
+                {
+                    firstName: "Dr. Priya",
+                    lastName: "Sharma",
+                    specialty: "Cardiologist",
+                    imageUrl: "/main page/asset/doctors.png",
+                    appointmentCount: 200,
+                    _id: "dummy1"
+                },
+                {
+                    firstName: "Dr. Rahul",
+                    lastName: "Verma",
+                    specialty: "Dermatologist",
+                    imageUrl: "/main page/asset/doctors.png",
+                    appointmentCount: 180,
+                    _id: "dummy2"
+                },
+                {
+                    firstName: "Dr. Anjali",
+                    lastName: "Mehra",
+                    specialty: "Pediatrician",
+                    imageUrl: "/main page/asset/doctors.png",
+                    appointmentCount: 150,
+                    _id: "dummy3"
+                }
+            ],
+            recentReviews: [
+                {
+                    createdBy: { firstName: "Amit", lastName: "Kumar" },
+                    doctorId: { firstName: "Priya", lastName: "Sharma", specialty: "Cardiologist" },
+                    rating: 5,
+                    comment: "Excellent care and very professional.",
+                    imageUrl: "/main page/asset/defalut user.jpg",
+                    createdAt: new Date()
+                },
+                {
+                    createdBy: { firstName: "Sunita", lastName: "Patel" },
+                    doctorId: { firstName: "Rahul", lastName: "Verma", specialty: "Dermatologist" },
+                    rating: 4,
+                    comment: "Very helpful and friendly staff.",
+                    imageUrl: "/main page/asset/defalut user.jpg",
+                    createdAt: new Date()
+                }
+            ],
+            topSpecialties: [
+                "Cardiologist", "Dermatologist", "Orthopedic Surgeon", "Pediatrician"
+            ],
             categories: [
                 "Cardiologist", "Dermatologist", "Orthopedic Surgeon", "Pediatrician", 
                 "Neurologist", "Gynecologist", "Psychiatrist", "Ophthalmologist", 
@@ -190,8 +295,8 @@ router.get('/error', (req, res) => {
     res.status(404).render('error');
 });
 
-router.all('*',(req,res)=>{
-    res.status(404).redirect('/error')
-})
+// router.all('*',(req,res)=>{
+//     res.status(404).redirect('/error')
+// })
 
 module.exports = router ;
