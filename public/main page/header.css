@@ -1,3 +1,10 @@
+/* Always hide openMenuBtn by default
+#openMenuBtn {
+  display: none !important;
+} */
+
+/* Show openMenuBtn only on small screens */
+
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* Color Palette */
@@ -239,7 +246,7 @@ background-color: transparent;
     position: relative;
   }
   .hamburger {
-    display: inline-block !important;
+    display: inline-block;
     position: absolute;
     right: 10px;
     top: 20px;
@@ -247,7 +254,7 @@ background-color: transparent;
   }
   .close-hamburger {
     display: none;
-    position: absolute;
+    position: fixed;
     right: 10px;
     top: 20px;
     z-index: 1102;
@@ -290,7 +297,7 @@ background-color: transparent;
     justify-content: space-between;
   }
   .logo {
-    width: 100%;
+    /* width: 100%; */
     text-align: center;
     margin: 10px 0;
   }

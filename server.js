@@ -4,14 +4,12 @@ const flash = require('connect-flash');
 const express = require('express');
 const cookieParser = require('cookie-parser')
 const path = require('path');
-const mongoose = require('./db/mongoose')
 const useRouter = require('./routes/routes');
 const staticRouter = require('./routes/staticRoutes');
 const noAuthRoute = require('./routes/routeWithNoAuth');
 const mainPageRouter = require('./routes/mainPage');
 const AdminRoutes = require('./routes/admin');
-const mainPagePath = path.join(__dirname, '../main page');
-const { checkForAuthentication , restrictTo, requireAdminAuth } = require('./middleware/auth')
+const { checkForAuthentication  } = require('./middleware/auth')
 const cluster = require('cluster')
 const os = require('os'); 
 const { Socket } = require('dgram');
@@ -45,27 +43,6 @@ app.use(flash());
 const socketIo = require("socket.io");
 const server = http.createServer(app);
 const io = socketIo(server);
-
-// io.on("connection", (socket) => {
-//     console.log("A user connected:", socket.id);
-
-//     socket.on("disconnect", () => {
-//         console.log("A user disconnected:", socket.id);
-//     });
-
-//     socket.on('appointment-booked', (data) => {
-//         io.emit(`doctor-${data.doctorId}`, {
-//             message: 'New appointment booked',
-//             appointment: data.appointment
-//         });
-//     });
-    
-//     socket.on('queue-update', (data) => {
-//         io.emit(`queue-update-${data.doctorId}`, {
-//             queue: data.queue
-//         });
-//     });
-// });
 
 app.use((req, res, next) => {
     res.locals.successMessage = req.flash('success');
