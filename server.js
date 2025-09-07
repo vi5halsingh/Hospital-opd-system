@@ -2,6 +2,7 @@ require('dotenv').config();
 const session = require('express-session');
 const flash = require('connect-flash');
 const express = require('express');
+const MongoStore = require('connect-mongo')
 const cookieParser = require('cookie-parser')
 const path = require('path');
 const useRouter = require('./routes/routes');
@@ -37,7 +38,16 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
-
+app.use(session({
+    secret: process.env.JWT_Secret,
+    resave: false,
+    saveUninitialized: false, 
+    store: MongoStore.create({       
+        mongoUrl: process.env.MONGO_URI,
+        collectionName: 'sessions',
+        ttl: 14 * 24 * 60 * 60 
+    })
+}));
 app.use(flash());
 
 const socketIo = require("socket.io");
