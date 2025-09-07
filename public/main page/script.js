@@ -96,7 +96,7 @@ function closeMenu() {
 }
 
 if (openMenuBtn && closeMenuBtn && mainNav) {
-  openMenuBtn.style.display = "inline-block";
+  // openMenuBtn.style.display = "inline-block";
   openMenuBtn.addEventListener("click", openMenu);
   closeMenuBtn.addEventListener("click", closeMenu);
 

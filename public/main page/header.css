@@ -235,7 +235,12 @@ outline: none;
 border: none;
 background-color: transparent;
 }
-
+ .hamburger {
+    display: none;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+  }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
