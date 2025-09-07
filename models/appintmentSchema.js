@@ -21,7 +21,7 @@ const AppointSchema = new mongoose.Schema({
     },
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor',
+        ref: 'doctors',
         required:true,
     },
 });

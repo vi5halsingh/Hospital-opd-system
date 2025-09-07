@@ -25,7 +25,7 @@ const crypto = require('crypto'); // For secure OTP generation
 const { Console } = require('console');
 
 async function handleSignup(req, res) {
-    const { firstName, lastName, email, password, phoneNumber, dob, address, category } = req.body;
+    const { firstName, lastName, email, password, phoneNumber, age, address, category } = req.body;
     
     const existingUser = await Signupdetail.findOne({ phoneNumber });
     if (existingUser) {
@@ -70,7 +70,7 @@ async function handleSignup(req, res) {
             email,
             password: hashedPassword,
             phoneNumber,
-            dob,
+            age,
             address,
             category,
             otp: hashedOtp,

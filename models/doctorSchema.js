@@ -22,6 +22,11 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+   status: {
+    type: Boolean,
+    default: true,
+    index: true // Add index here
+  },
   contactInfo: {
     email: {
       type: String,

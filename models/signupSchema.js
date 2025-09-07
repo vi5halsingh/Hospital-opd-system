@@ -8,7 +8,7 @@ const SignupSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required:true},
     phoneNumber: { type: Number, required: true,unique:true},
-    dob: { type: String, required: true},
+    age: { type: Number, required: true},
     address: { type: String, required: true},
     category: { type: String, required: true },
     userType: { type: String, default:"patient" },
@@ -19,12 +19,6 @@ const SignupSchema = new mongoose.Schema({
         default: false, // Default to false
       },
 });
-
-// function isValidEmail(email) {
-//     // Basic email format validation
-//     const re = /\S+@\S+\.\S+/;
-//     return re.test(email);
-// }
 
 
  const Signupdetail = mongoose.model("signupdetails" , SignupSchema)

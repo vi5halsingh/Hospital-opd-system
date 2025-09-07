@@ -2,11 +2,12 @@
 const mongoose = require('mongoose');
 
 const appointmentSlotSchema = new mongoose.Schema({
-  doctor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Doctor',
-    required: true
-  },
+   doctor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'doctors',
+        required: true,
+        index: true // Add index here
+    },
   date: {
     type: Date,
     required: true

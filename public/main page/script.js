@@ -88,10 +88,7 @@ function openMenu() {
   openMenuBtn.style.setProperty("display", "none");
   closeMenuBtn.style.display = "inline-block";
 }
-//  if (window.innerWidth > 768) {
-//     openMenuBtn.style.display = "none";
-//     closeMenuBtn.style.display = "none";
-//   }
+
 function closeMenu() {
   mainNav.classList.remove("open");
   openMenuBtn.style.display = "inline-block";

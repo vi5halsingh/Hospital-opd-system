@@ -28,7 +28,6 @@ router.get('/', async (req, res) => {
             
             // Featured doctors (top 6 with most appointments)
             Doctor.aggregate([
-                { $match: { status: true } },
                 {
                     $lookup: {
                         from: 'appointments',
@@ -44,7 +43,7 @@ router.get('/', async (req, res) => {
                 },
                 { $sort: { appointmentCount: -1 } },
                 { $limit: 6 }
-            ]),
+            ], { maxTimeMS: 30000 }), // Added maxTimeMS to prevent timeout
             
             // Recent reviews
             Review.find()
@@ -55,7 +54,7 @@ router.get('/', async (req, res) => {
             
             // Specialty statistics
             Doctor.aggregate([
-                { $match: { status: true } },
+           
                 {
                     $group: {
                         _id: '$specialty',
@@ -64,7 +63,7 @@ router.get('/', async (req, res) => {
                 },
                 { $sort: { count: -1 } },
                 { $limit: 8 }
-            ])
+            ], { maxTimeMS: 30000 }) // Added maxTimeMS to prevent timeout
         ]);
 
         // Get profile images for featured doctors

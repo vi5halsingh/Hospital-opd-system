@@ -9,7 +9,7 @@ function setuser(user) {
         firstName: user.firstName,
         lastName: user.lastName,
         phoneNumber: user.phoneNumber,
-        dob: user.dob,
+        age: user.age,
         address: user.address,
         userType: user.userType,
         category: user.category,

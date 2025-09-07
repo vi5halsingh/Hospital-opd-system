@@ -44,8 +44,10 @@ header {
   padding: 20px 0;
   
   color: var(--primary-color);
-  position: relative;
-  z-index: 1;
+  position: fixed;
+  width: 100%;
+  top:0px;
+  z-index: 99999;
 }
 
 .container {
