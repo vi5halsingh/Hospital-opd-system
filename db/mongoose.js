@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const URI = process.env.MONGO_URI;
 
+
+const conncectDB = ()=>{
 mongoose.connect(URI, {
     serverSelectionTimeoutMS: 30000 // 30 seconds
 }).then(() => {
@@ -8,5 +10,5 @@ mongoose.connect(URI, {
 }).catch((err) => {
     console.error('Error connecting to MongoDB', err);
 });
-
-module.exports = mongoose;
+}
+module.exports = conncectDB;

@@ -9,12 +9,13 @@ const staticRouter = require('./routes/staticRoutes');
 const noAuthRoute = require('./routes/routeWithNoAuth');
 const mainPageRouter = require('./routes/mainPage');
 const AdminRoutes = require('./routes/admin');
-const { checkForAuthentication  } = require('./middleware/auth')
+const { checkForAuthentication  } = require('./middleware/auth');
+const conncectDB = require('./db/mongoose');
 const cluster = require('cluster')
 const os = require('os'); 
 const { Socket } = require('dgram');
 const CPU = os.cpus().length
-console.log('total cpu for this app',CPU);
+// console.log('total cpu for this app',CPU);
 if(cluster.isPrimary){
     console.log(`Primary process ${process.pid} is running`);
     console.log(`Total CPU cores: ${CPU}`);
@@ -32,6 +33,8 @@ const app = express();
 const templatePath = path.join(__dirname, './template');
 const publicPath = path.join(__dirname, './public');
 const http = require("http")
+
+conncectDB()
 app.use(session({
     secret:process.env.JWT_Secret, 
     resave: false,
