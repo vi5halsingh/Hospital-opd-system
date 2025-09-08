@@ -20,6 +20,12 @@
   <div class="container">
     <div class="content-area">
       <div class="sidebar-content active" id="content1">
+         <% if (doctorData.length===0) { %>
+      <p style=" text-align: center; font-size: 1.2rem; font-weight: 600;">No doctors available.</p>
+      <div style="text-align: center; font-size: 1.2rem;font-weight: 600; margin-top: 12rem; ">
+        <p>wait or try after sometime </p>
+      </div>
+      <% } else { %>
         <% doctorData.forEach(data=> { %>
           <div class="doctor-card">
             <div class="doctor-profile">
@@ -49,6 +55,8 @@
             </div>
           </div>
           <% }) %>
+
+        <% } %>
       </div>
     </div>
   </div>

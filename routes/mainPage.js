@@ -10,6 +10,7 @@ router.get("/nearest-doctors", async (req, res) => {
   try {
 
     const doctors = await Doctor.find({});
+    // console.log("doctors:",doctors)
 
     if (!doctors || doctors.length === 0) {
       return res.status(404).send("Doctors not found");
@@ -22,7 +23,7 @@ router.get("/nearest-doctors", async (req, res) => {
       return { doctor, imageUrl };
     }
     ));
-    res.render("main-page/doctors", { doctorData });
+    res.render("main-page/Doctors", { doctorData });
   } catch (error) {
     console.error("Error fetching doctors or profile images:", error);
     res.status(500).send("Server Error");
