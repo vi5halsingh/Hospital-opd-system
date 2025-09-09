@@ -6,12 +6,11 @@ const { Signupdetail } = require("../models/signupSchema");
 const Doctor = require("../models/doctorSchema");
 const { ProfileImage } = require("../models/profileImageSchema");
 const { getAppointments } = require("../controller/appointment");
-const { QueueStatus } = require("../controller/UserRoutes");
+const { QueueStatus, getPatientAppointmentDetails } = require("../controller/UserRoutes");
 const { populate } = require("../models/review");
 const Review = require("../models/review");
 const Staff = require("../models/addStaff");
 
-// Helper function to fetch profile image and render a template
 async function renderDashboard(req, res, template, additionalData = {}) {
   const user = req.user || req.doctor;
 
@@ -25,11 +24,9 @@ async function renderDashboard(req, res, template, additionalData = {}) {
     res.render(template, { user, imageUrl, ...additionalData });
   } catch (error) {
     console.error("Error in multer:", error);
-    // res.status(500).send("Server Error");
   }
 }
 
-// Routes for user dashboards
 router.get("/patient", checkForAuthentication, restrictTo(["staff", "patient", "admin"]), async (req, res) => {
   const allAppointments = await AppointmentSchema.find({ createdBy: req.user._id });
   renderDashboard(req, res, "user-dashboard/index1", { allAppointments });
@@ -61,7 +58,6 @@ router.get("/Medical-Records", checkForAuthentication, restrictTo(["staff", "pat
   }
 });
 
-// Additional user dashboard routes
 const userRoutes = [
   { path: "/Doctor-Interaction", template: "user-dashboard/index3" },
   { path: "/Notifications", template: "user-dashboard/index6" },
@@ -123,7 +119,6 @@ router.get("/Queue-Status", checkForAuthentication, async (req, res) => {
   }
 });
 
-// Doctor/dashboard routes (now allow userType "doctor" as well as "staff" and "admin")
 router.get("/staff", doctorAuthentication, restrictTo(["doctor", "staff", "admin"]), async (req, res) => {
   try {
     const doctor = await req.doctor;
@@ -194,17 +189,7 @@ router.get("/patient-record", doctorAuthentication, restrictTo(["doctor", "staff
   }
 });
 
-router.get("/patient-details/:Id", async (req, res) => {
-  const patientId = req.params.Id;
-  const user = req.user;
-  const patient = await Signupdetail.findOne({ _id: "675fd19bc7519a246fb59243" });
-  console.log("logged in is ", patientId);
-
-  const appointments = await AppointmentSchema.find({ createdBy: patientId, doctor: user._id });
-  const profileImage = await ProfileImage.findOne({ uploadedBy: patientId }).populate("uploadedBy");
-  const image = profileImage ? `/uploads/${profileImage.profileImage}` : null;
-  res.render("doctor-dashboard/patient-detail", { appointments, image, patient });
-});
+router.get('/patient-appointment-details/:appointmentId', doctorAuthentication, restrictTo(["doctor", "staff"]), getPatientAppointmentDetails);
 
 router.get("/doctor/add-staff", doctorAuthentication, restrictTo(["doctor", "staff", "admin"]), async (req, res) => {
   try {
@@ -213,11 +198,9 @@ router.get("/doctor/add-staff", doctorAuthentication, restrictTo(["doctor", "sta
       return res.redirect("/login/doctor");
     }
 
-    // Fetch existing staff members for this doctor with full details
     const staffMembers = await Staff.find({ doctorId: doctor._id })
       .populate("UserId", "firstName lastName phoneNumber");
 
-    // Format staff data for display
     const staffList = staffMembers.map(staff => ({
       _id: staff._id,
       name: `${staff.UserId.firstName} ${staff.UserId.lastName}`,

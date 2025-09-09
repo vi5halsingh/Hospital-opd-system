@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/doctors/admin.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     </style>
 </head>
@@ -22,82 +22,70 @@
                 <li><a href="/comming-soon">Telehealth Integration</a></li>
                 <li><a href="/api/doctor/add-staff">Your staff</a></li>
                 <li id="logout">Log Out</li>
-                <!-- <button onClick={handleLogout}>Logout</button> -->
-
             </ul>
         </div>
 
         <div class="content-area">
-            <!-- doctor profile -->
-            <div class="sidebar-content" id="content1">
-            </div>
-            
-            <!-- Appointments Section -->
             <div class="sidebar-content" id="content2">
-       <div class="search-container">
-           <input type="text" id="searchInput" onkeyup="searchAppointment()" placeholder="Search appointments...">
-           <button onclick="searchAppointment()">Search</button>
-        </div>
-       <div class="profile-appointment-list">
-           <h1>New Appointments</h1>
-           <table>
-               <thead>
-                   <tr>
-                    <th>Name</th>
-                    <th>Mobile Number</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>payment</th>
-                    <th>Details</th>
-                    <th>delete</th>
-                   </tr>
-               </thead>
-               <tbody id="new-appointments-body">
-                <% if(allAppointments && allAppointments.length > 0) { %>
-                    <% allAppointments.forEach(appointment => { %>
-                        <% if (appointment.status === 'new') { %>
-                            <tr id="appointment-<%= appointment._id %>" data-appointment-id="<%= appointment._id %>">
-                                <td><%= appointment.fullname %></td>
-                                <td><%= appointment.mobile %></td>
-                                <td>
-                                    <i class="fas fa-check" style="color: green;" onclick="updateAppointmentStatus(this, 'accepted')"></i>
-                                    <i class="fas fa-times" style="color: red;" onclick="updateAppointmentStatus(this, 'declined')"></i>
-                                    <i class="fas fa-pause" style="color: #ffbf00;" onclick="updateAppointmentStatus(this, 'waitlisted')"></i>
-                                </td>
-                                <td><%= appointment.address %></td>
-                                <td>No</td>
-                                <td><button><a href="/api/patient-details/<%= appointment.createdBy %>">More</a></button></td>
-                                <td><button><a href="#">delete</a></button></td>
-                               
-                            </tr>
+               <div class="search-container">
+                   <input type="text" id="searchInput" onkeyup="searchAppointment()" placeholder="Search appointments...">
+                   <button onclick="searchAppointment()">Search</button>
+                </div>
+               <div class="profile-appointment-list">
+                   <h1>New Appointments</h1>
+                   <table>
+                       <thead>
+                           <tr>
+                            <th>Name</th>
+                            <th>Mobile Number</th>
+                            <th>Status</th>
+                            <th>address</th>
+                            <th>payment</th>
+                            <th>Details</th>
+                            <th>delete</th>
+                           </tr>
+                       </thead>
+                       <tbody id="new-appointments-body">
+                        <% if(allAppointments && allAppointments.length > 0) { %>
+                            <% allAppointments.forEach(appointment => { %>
+                                <% if (appointment.status === 'new') { %>
+                                    <tr id="appointment-<%= appointment._id %>" data-appointment-id="<%= appointment._id %>">
+                                        <td><%= appointment.fullname %></td>
+                                        <td><%= appointment.mobile %></td>
+                                        <td>
+                                            <i class="fas fa-check" style="color: green;" onclick="updateAppointmentStatus(this, 'accepted')"></i>
+                                            <i class="fas fa-times" style="color: red;" onclick="updateAppointmentStatus(this, 'declined')"></i>
+                                            <i class="fas fa-pause" style="color: #ffbf00;" onclick="updateAppointmentStatus(this, 'waitlisted')"></i>
+                                        </td>
+                                        <td><%= appointment.address %></td>
+                                        <td>No</td>
+                                        <td><button><a href="/api/patient-appointment-details/<%= appointment._id %>">More</a></button></td>
+                                        <td><button><a href="#">delete</a></button></td>
+                                    </tr>
+                                <% } %>
+                            <% }) %>
+                        <% } else { %>
+                        <tr>
+                            <td colspan="4">No new appointments found.</td>
+                        </tr>
                         <% } %>
-                    <% }) %>
-                <% } else { %>
-                <tr>
-                    <td colspan="4">No new appointments found.</td>
-                </tr>
-                <% } %>
-             </tbody>
-             
-                </table>
+                     </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        
     </div>
-</div>
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const socket = io();
 const doctorId = '<%= doctor._id %>';
 
-// Listen for new appointments
 socket.on('new-appointment', (data) => {
     console.log('New appointment received:', data);
     if (data.appointment.doctor.toString() === doctorId) {
         const tbody = document.getElementById('new-appointments-body');
         const appointment = data.appointment;
         
-        // Check if there's a "No appointments" message and remove it
         const noAppointmentRow = tbody.querySelector('td[colspan="7"]');
         if (noAppointmentRow) {
             noAppointmentRow.parentElement.remove();
@@ -114,7 +102,7 @@ socket.on('new-appointment', (data) => {
                 </td>
                 <td>${appointment.address}</td>
                 <td>No</td>
-                <td><button><a href="/api/patient-details/${appointment.createdBy}">More</a></button></td>
+                <td><button><a href="/api/patient-appointment-details/${appointment._id}">More</a></button></td>
                 <td><button><a href="#">Delete</a></button></td>
             </tr>
         `;
@@ -122,7 +110,6 @@ socket.on('new-appointment', (data) => {
     }
 });
 
-// Listen for status updates
 socket.on('status-update', (data) => {
     const appointmentRow = document.querySelector(`#appointment-${data.appointmentId}`);
     if (appointmentRow && data.status !== 'new') {
@@ -133,7 +120,6 @@ socket.on('status-update', (data) => {
     }
 });
 
-// Update status change to use sockets
 async function updateAppointmentStatus(element, newStatus) {
     const appointmentId = element.closest('tr').getAttribute('data-appointment-id');
     

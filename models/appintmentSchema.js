@@ -11,7 +11,7 @@ const AppointSchema = new mongoose.Schema({
     address: { type: String },
     status: {
         type: String,
-        enum: ['new', 'accepted', 'declined', 'waitlisted'],
+        enum: ['new', 'accepted', 'declined', 'waitlisted', 'completed'],
         default: 'new'
     },
     createdBy: {
