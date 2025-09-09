@@ -1,8 +1,9 @@
 const {AppointmentSchema} = require('../../models/appintmentSchema');
 const Doctor = require('../../models/doctorSchema');
 const {Signupdetail} = require('../../models/signupSchema');
-const bcrypt = require('bcrypt')
-// Dashboard Overview
+const Notification = require('../../models/notificationSchema');
+const bcrypt = require('bcrypt');
+
 const getDashboard = async (req, res) => {
     try {
         const [
@@ -32,7 +33,6 @@ const getDashboard = async (req, res) => {
     }
 };
 
-// Appointments Management
 const getAppointments = async (req, res) => {
     try {
         const appointments = await AppointmentSchema.find()
@@ -48,11 +48,14 @@ const getAppointments = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
     const { appointmentId, status } = req.body;
-    await AppointmentSchema.findByIdAndUpdate(appointmentId, { status });
-    res.redirect('/admin/appointments');
+    try {
+        const updatedAppointment = await AppointmentSchema.findByIdAndUpdate(appointmentId, { status }, { new: true });
+        res.json({ success: true, appointment: updatedAppointment });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error updating status' });
+    }
 };
 
-// Users Management
 const getDoctors = async (req, res) => {
     try {
         const doctors = await Doctor.find().sort({ createdAt: -1 });
@@ -73,28 +76,74 @@ const getPatients = async (req, res) => {
     }
 };
 
-// Notifications
-const getNotifications = (req, res) => {
-    res.render('admin/notifications', {layout: 'layout'});
+const getNotifications = async (req, res) => {
+    try {
+        const notifications = await Notification.find().sort({ createdAt: -1 });
+        res.render('admin/notifications', { notifications });
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        res.status(500).send('Error loading notifications');
+    }
 };
 
 const sendNotification = async (req, res) => {
-    const { title, message, target } = req.body;
-    // Logic to send notification
-    res.redirect('/admin/notifications');
+    try {
+        const { title, message, target } = req.body;
+        const newNotification = new Notification({ title, message, target });
+        await newNotification.save();
+
+        const io = req.app.get('io');
+        if (io) {
+            io.emit('admin-notification', newNotification);
+        }
+        
+        req.flash('success', 'Notification sent successfully!');
+        res.redirect('/admin/notifications');
+    } catch (error) {
+        console.error('Error sending notification:', error);
+        req.flash('error', 'Failed to send notification.');
+        res.redirect('/admin/notifications');
+    }
 };
 
-// Settings
 const getSettings = (req, res) => {
-    res.render('admin/settings' ,{layout: 'layout',});
+    res.render('admin/settings');
 };
 
-const updateSettings = (req, res) => {
-    // Logic to update settings
-    res.redirect('/admin/settings');
+const updateSettings = async (req, res) => {
+    const { adminPassword, newPassword, confirmPassword } = req.body;
+
+    if (!adminPassword || !newPassword || !confirmPassword) {
+        req.flash('error', 'Please fill all password fields.');
+        return res.redirect('/admin/settings');
+    }
+
+    if (newPassword !== confirmPassword) {
+        req.flash('error', 'New passwords do not match.');
+        return res.redirect('/admin/settings');
+    }
+
+    try {
+        const admin = await Signupdetail.findById(req.session.adminId);
+        const isMatch = await bcrypt.compare(adminPassword, admin.password);
+
+        if (!isMatch) {
+            req.flash('error', 'Incorrect current password.');
+            return res.redirect('/admin/settings');
+        }
+
+        admin.password = await bcrypt.hash(newPassword, 10);
+        await admin.save();
+        
+        req.flash('success', 'Password updated successfully!');
+        res.redirect('/admin/settings');
+    } catch (error) {
+        console.error('Error updating password:', error);
+        req.flash('error', 'An error occurred while updating the password.');
+        res.redirect('/admin/settings');
+    }
 };
 
-// Add Doctor (POST)
 const addDoctor = async (req, res) => {
   try {
     const doctorData = {
@@ -137,7 +186,6 @@ const addDoctor = async (req, res) => {
   }
 };
 
-// Edit Doctor Form (GET)
 const editDoctorForm = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
@@ -156,7 +204,6 @@ const editDoctorForm = async (req, res) => {
   }
 };
 
-// Edit Doctor (POST)
 const editDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
@@ -194,11 +241,9 @@ const editDoctor = async (req, res) => {
   }
 };
 
-// Delete Doctor (POST)
 const deleteDoctor = async (req, res) => {
   try {
     await Doctor.findByIdAndDelete(req.params.id);
-    req.flash('success', 'Doctor deleted successfully!');
     res.redirect('/admin/doctors');
   } catch (err) {
     req.flash('error', 'Error deleting doctor: ' + err.message);

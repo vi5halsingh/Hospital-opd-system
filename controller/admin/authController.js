@@ -7,7 +7,7 @@ async function adminLogin(req, res) {
   const { email, password } = req.body;
   try {
     const admin = await Signupdetail.findOne({ email, userType: 'admin' });
-    console.log(admin)
+    console.log(admin.email)
     if (!admin) {
       return res.render('admin/admin-login', { errorMessage: 'Invalid credentials or not an admin.' });
     }
