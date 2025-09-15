@@ -240,26 +240,44 @@ table tbody tr:last-child {
 table tbody td {
     padding: 15px;
 }
-
+.hamburger {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        overflow-x:hidden;
     }
 
     .sidebar {
-        width: 100%;
-        padding: 10px;
+         width: 100%;
+        height: 100vh;
+        position: fixed;
+        left: -100%; /* Initially hidden off-screen */
+        transition: left 0.3s ease;
+        z-index: 1000;
     }
 
-    .sidebar-menu li {
-        text-align: center;
+    .sidebar.active {
+        left: 0; /* Slides in when active */
     }
 
     .content-area {
+        width: 100%;
         padding: 10px;
     }
+     .hamburger {
+        display: block;
+    }
+ 
 
     table tbody td {
         padding: 10px;

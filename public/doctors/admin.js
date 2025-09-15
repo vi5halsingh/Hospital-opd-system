@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     var firstContent = document.getElementById('content1');
-    firstContent.classList.add('active');
+   if(firstContent) firstContent.classList.add('active');
 });
 
 function showContent(contentNumber) {
@@ -112,7 +112,7 @@ function updateAppointmentStatus(element, newStatus) {
     .catch(error => console.error('Error:', error));
 }
 
-document.getElementById('logout').addEventListener('click', function() {
+document.getElementById('logout')?.addEventListener('click', function() {
     const userconfirm = confirm("Do you want to Log Out")
     if(userconfirm){
         localStorage.removeItem('token');  
@@ -128,5 +128,34 @@ document.getElementById('logout').addEventListener('click', function() {
         
     }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const contentArea = document.querySelector('.content-area');
+    const closedMenu = document.querySelector('.close');
+    const openedMenu = document.querySelector('.open');
+
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents the content area click from firing
+            
+            if (sidebar.classList.contains('active')) {
+                // When sidebar is open and we want to close it
+                closedMenu.style.display = 'block';
+                openedMenu.style.display = 'none';
+                sidebar.classList.remove('active');
+            } else {
+                // When sidebar is closed and we want to open it
+                closedMenu.style.display = 'none';
+                openedMenu.style.display = 'block';
+                sidebar.classList.add('active');
+            }
+        });
+    }
+})
+
     
 

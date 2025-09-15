@@ -432,6 +432,7 @@ main {
   /* border: 2px solid; */
 }
 
+
 .mySlides {
   display: none;
 }
@@ -642,7 +643,9 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
-
+.toggles {
+  display: none;
+}
 /* Default styles already set in your CSS for large screens */
 
 /* Tablets (landscape and portrait) */
@@ -697,10 +700,17 @@ a:hover {
   .submit-btn543210 {
     width: 100%;
   }
+
 }
 
 /* Mobile Phones */
 @media (max-width: 768px) {
+  .toggles {
+    display: flex;
+    justify-content: end ;
+    padding-right: 10px;
+    gap: 10px;
+  }
   .container {
     padding: 0 5px;
   }

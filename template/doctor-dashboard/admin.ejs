@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
 </head>
 
 <style>
@@ -96,6 +100,11 @@
 <body>
     <div class="container">
         <div class="sidebar">
+          <div class="sidebar-header">
+          
+        
+
+          </div>
             <ul class="sidebar-menu">
                 <li><a href="/api/staff">Profile</a></li>
                 <li><a href="/api/New-Appointments">Appointments <sup style="color: red;font-weight: bold;"><%= newAppoint.length %></sup></a></li>
@@ -109,6 +118,11 @@
         </div>
 
         <div class="content-area">
+             <div class="hamburger">
+        <i class="fas fa-bars close"></i>
+          <i class="fa-solid fa-xmark open" style="display: none;"></i>
+     
+    </div>
             <!-- Profile Section -->
             <div class="sidebar-content" id="content1">
                 <div class="profile-container">
