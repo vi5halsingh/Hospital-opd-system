@@ -23,7 +23,7 @@
             <%- include('../partials/profilePhoto') %>
             <h4 id="userName" style="text-align:center; font-size: 1.5rem; width: 60%;"> <%= user.firstName %> <%= user.lastName %></h4>
           </div>
-          <li><a href="/api/patient" class="anchor9302">Profile Overview</a></li>
+          <li><a href="/api/patient" class="anchor9302">Profile</a></li>
           <li><a href="/api/appointment-booking" class="anchor9302">Appointments</a></li>
           <li><a href="/api/Doctor-Interaction" class="anchor9302">Doctor Interaction</a></li>
           <li><a href="/api/Queue-Status" class="anchor9302">Queue Status</a></li>
@@ -35,7 +35,10 @@
       </div>
 
    </div>
-
+ <div class="hamburger">
+    <i class="fas fa-bars close"></i>
+    <i class="fa-solid fa-xmark open" style="display: none;"></i>
+  </div>
    <div class="container6591" style="display: flex; justify-content: center; align-items: center;">
     <div class="search-bar6591">
         <input type="text" placeholder="Search..." class="search-input6591">
@@ -147,6 +150,33 @@
         
     }
 });      
+      
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.menu');
+    const contentArea = document.querySelector('.content-area');
+    const closedMenu = document.querySelector('.close');
+    const openedMenu = document.querySelector('.open');
+
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents the content area click from firing
+            
+            if (sidebar.classList.contains('active')) {
+                // When sidebar is open and we want to close it
+                closedMenu.style.display = 'block';
+                openedMenu.style.display = 'none';
+                sidebar.classList.remove('active');
+            } else {
+                // When sidebar is closed and we want to open it
+                closedMenu.style.display = 'none';
+                openedMenu.style.display = 'block';
+                sidebar.classList.add('active');
+            }
+        });
+    }
+})
+
       </script>
 </body>
 </html>

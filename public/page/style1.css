@@ -194,18 +194,41 @@ select {
   content: "\f53e";
 }
 
-@media screen and (max-width: 600px) {
-  .profile-overview {
-    width: 90%;
-    margin: 10px auto;
-  }
-}
-
 /* _______________________________________________________________ */
-
+.hamburger {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 24px;
+    cursor: pointer;
+   z-index: 1000;
+   padding-top: 5px;
+}
 
 
 @media only screen and (max-width: 600px) {
+    .hamburger {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 10px;
+        align-items: center;
+    }
+    .main-dashboard{
+    
+    flex-direction: column;
+    }
+   
+    .content-box9302 {
+  width: 90%;
+  /* border:2px solid; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* height: 90%; */
+}
+    .profile-overview {
+    width: 90%;
+    margin: 10px auto;
+  }
   .form-group5656 {
     flex: 1 1 100%;
     /* Each item takes full width on smaller screens */

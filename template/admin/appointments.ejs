@@ -231,7 +231,10 @@
             </div>
         </div>
     </div>
-
+ <div class="hamburger">
+        <i class="ri-menu-line close"></i>    
+       <i class="ri-close-circle-line open " style="display: none;"></i>
+    </div>
     <div class="main-content">
         <div class="topbar">
             <div class="d-flex justify-content-between align-items-center">
@@ -452,6 +455,33 @@
         function printTable() {
             window.print();
         }
+
+            document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const contentArea = document.querySelector('.content-area');
+    const closedMenu = document.querySelector('.close');
+    const openedMenu = document.querySelector('.open');
+
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents the content area click from firing
+            hamburger.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                // When sidebar is open and we want to close it
+                closedMenu.style.display = 'block';
+                openedMenu.style.display = 'none';
+                sidebar.classList.remove('active');
+            } else {
+                // When sidebar is closed and we want to open it
+                closedMenu.style.display = 'none';
+                openedMenu.style.display = 'block';
+                sidebar.classList.add('active');
+            }
+        });
+    }
+})
+
     </script>
 </body>
 </html>

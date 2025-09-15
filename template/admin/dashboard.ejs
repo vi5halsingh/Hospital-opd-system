@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
     <style>
         :root {
             --primary-color: #4e73df;
@@ -15,12 +17,12 @@
             --warning-color: #f6c23e;
             --danger-color: #e74a3b;
         }
-        
+
         body {
             background-color: #f8f9fc;
             font-family: 'Nunito', sans-serif;
         }
-        
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -31,7 +33,9 @@
             z-index: 1000;
             transition: all 0.3s;
         }
-        
+        .sidebar.active{
+            left: 0;
+        }
         .sidebar-brand {
             height: 70px;
             display: flex;
@@ -40,19 +44,19 @@
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .sidebar-nav {
             padding: 1rem 0;
         }
-        
+
         .nav-item {
             margin: 0.5rem 1rem;
         }
-        
+
         .nav-link {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 0.75rem 1rem;
             border-radius: 0.35rem;
             transition: all 0.3s;
@@ -60,22 +64,23 @@
             display: flex;
             align-items: center;
         }
-        
-        .nav-link:hover, .nav-link.active {
+
+        .nav-link:hover,
+        .nav-link.active {
             color: white;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .nav-link i {
             margin-right: 0.5rem;
             width: 20px;
         }
-        
+
         .main-content {
             margin-left: 250px;
             padding: 1.5rem;
         }
-        
+
         .topbar {
             background: white;
             padding: 1rem 1.5rem;
@@ -83,14 +88,14 @@
             border-radius: 0.35rem;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
         }
-        
+
         .content-card {
             background: white;
             border-radius: 0.35rem;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             margin-bottom: 1.5rem;
         }
-        
+
         .card-header {
             background-color: #f8f9fc;
             border-bottom: 1px solid #e3e6f0;
@@ -98,7 +103,7 @@
             font-weight: bold;
             color: #5a5c69;
         }
-        
+
         .stat-card {
             background: white;
             border-radius: 0.35rem;
@@ -107,11 +112,11 @@
             margin-bottom: 1.5rem;
             transition: transform 0.3s;
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .stat-icon {
             width: 60px;
             height: 60px;
@@ -122,41 +127,68 @@
             font-size: 1.5rem;
             color: white;
         }
-        
-        .stat-primary { background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%); }
-        .stat-success { background: linear-gradient(180deg, var(--success-color) 0%, #17a673 100%); }
-        .stat-info { background: linear-gradient(180deg, var(--info-color) 0%, #2a96a5 100%); }
-        .stat-warning { background: linear-gradient(180deg, var(--warning-color) 0%, #e0a800 100%); }
-        
+
+        .stat-primary {
+            background: linear-gradient(180deg, var(--primary-color) 0%, #224abe 100%);
+        }
+
+        .stat-success {
+            background: linear-gradient(180deg, var(--success-color) 0%, #17a673 100%);
+        }
+
+        .stat-info {
+            background: linear-gradient(180deg, var(--info-color) 0%, #2a96a5 100%);
+        }
+
+        .stat-warning {
+            background: linear-gradient(180deg, var(--warning-color) 0%, #e0a800 100%);
+        }
+
         .recent-activity {
             max-height: 400px;
             overflow-y: auto;
         }
-        
+
         .activity-item {
             padding: 1rem;
             border-bottom: 1px solid #e3e6f0;
             transition: background-color 0.3s;
         }
-        
+
         .activity-item:hover {
             background-color: #f8f9fc;
         }
-        
+
         .activity-item:last-child {
             border-bottom: none;
         }
-        
+.hamburger {
+    display: none; /* Hidden by default on larger screens */
+    font-size: 24px;
+    cursor: pointer;
+   z-index: 1000;
+   padding-top: 5px;
+}
         @media (max-width: 768px) {
+              .hamburger {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 10px;
+        align-items: center;
+        height: 40px;
+    }
             .sidebar {
-                transform: translateX(-100%);
+                /* transform: translateX(-100%); */
+                left:-100%;
             }
+
             .main-content {
                 margin-left: 0;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -217,6 +249,10 @@
     </div>
 
     <!-- Main Content -->
+    <div class="hamburger">
+        <i class="ri-menu-line close"></i>    
+       <i class="ri-close-circle-line open " style="display: none;"></i>
+    </div>
     <div class="main-content">
         <!-- Topbar -->
         <div class="topbar">
@@ -227,12 +263,15 @@
                 </h1>
                 <div class="d-flex align-items-center">
                     <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i>
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
                         </ul>
                     </div>
@@ -247,7 +286,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="text-muted small">Total Doctors</div>
-                            <div class="h4 mb-0"><%= totalDoctors %></div>
+                            <div class="h4 mb-0">
+                                <%= totalDoctors %>
+                            </div>
                             <div class="text-success small">
                                 <i class="bi bi-arrow-up"></i> 12% increase
                             </div>
@@ -263,7 +304,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="text-muted small">Total Patients</div>
-                            <div class="h4 mb-0"><%= totalPatients %></div>
+                            <div class="h4 mb-0">
+                                <%= totalPatients %>
+                            </div>
                             <div class="text-success small">
                                 <i class="bi bi-arrow-up"></i> 8% increase
                             </div>
@@ -279,7 +322,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="text-muted small">Appointments</div>
-                            <div class="h4 mb-0"><%= totalAppointments %></div>
+                            <div class="h4 mb-0">
+                                <%= totalAppointments %>
+                            </div>
                             <div class="text-info small">
                                 <i class="bi bi-arrow-up"></i> 15% increase
                             </div>
@@ -295,7 +340,9 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="text-muted small">Pending</div>
-                            <div class="h4 mb-0"><%= pendingAppointments %></div>
+                            <div class="h4 mb-0">
+                                <%= pendingAppointments %>
+                            </div>
                             <div class="text-warning small">
                                 <i class="bi bi-clock"></i> Needs attention
                             </div>
@@ -330,7 +377,8 @@
                     <div class="recent-activity">
                         <div class="activity-item">
                             <div class="d-flex align-items-center">
-                                <div class="stat-icon stat-success me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                <div class="stat-icon stat-success me-3"
+                                    style="width: 40px; height: 40px; font-size: 1rem;">
                                     <i class="bi bi-person-plus"></i>
                                 </div>
                                 <div>
@@ -342,7 +390,8 @@
                         </div>
                         <div class="activity-item">
                             <div class="d-flex align-items-center">
-                                <div class="stat-icon stat-info me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                <div class="stat-icon stat-info me-3"
+                                    style="width: 40px; height: 40px; font-size: 1rem;">
                                     <i class="bi bi-calendar-check"></i>
                                 </div>
                                 <div>
@@ -354,7 +403,8 @@
                         </div>
                         <div class="activity-item">
                             <div class="d-flex align-items-center">
-                                <div class="stat-icon stat-warning me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                <div class="stat-icon stat-warning me-3"
+                                    style="width: 40px; height: 40px; font-size: 1rem;">
                                     <i class="bi bi-exclamation-triangle"></i>
                                 </div>
                                 <div>
@@ -366,7 +416,8 @@
                         </div>
                         <div class="activity-item">
                             <div class="d-flex align-items-center">
-                                <div class="stat-icon stat-primary me-3" style="width: 40px; height: 40px; font-size: 1rem;">
+                                <div class="stat-icon stat-primary me-3"
+                                    style="width: 40px; height: 40px; font-size: 1rem;">
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div>
@@ -454,7 +505,35 @@
                 }
             }
         });
-    
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    const contentArea = document.querySelector('.content-area');
+    const closedMenu = document.querySelector('.close');
+    const openedMenu = document.querySelector('.open');
+
+    if (hamburger && sidebar) {
+        hamburger.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevents the content area click from firing
+            hamburger.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                // When sidebar is open and we want to close it
+                closedMenu.style.display = 'block';
+                openedMenu.style.display = 'none';
+                sidebar.classList.remove('active');
+            } else {
+                // When sidebar is closed and we want to open it
+                closedMenu.style.display = 'none';
+                openedMenu.style.display = 'block';
+                sidebar.classList.add('active');
+            }
+        });
+    }
+})
+
+
     </script>
 </body>
+
 </html>
