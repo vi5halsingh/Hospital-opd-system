@@ -199,52 +199,89 @@ select {
     display: none; /* Hidden by default on larger screens */
     font-size: 24px;
     cursor: pointer;
-   z-index: 1000;
-   padding-top: 5px;
+    z-index: 1001;
+    padding: 15px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: white;
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
+    body {
+        background: linear-gradient(to right, #411adf, #ca17ee);
+        background-attachment: fixed;
+        animation: none; /* Disable animation on mobile for better performance */
+    }
+    
     .hamburger {
         display: flex;
-        justify-content: flex-end;
-        padding-right: 10px;
+        justify-content: center;
         align-items: center;
     }
-    .main-dashboard{
     
-    flex-direction: column;
+    .main-dashboard {
+        flex-direction: column;
     }
    
     .content-box9302 {
-  width: 90%;
-  /* border:2px solid; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* height: 90%; */
-}
+        width: 100%;
+        padding: 10px;
+        margin-top: 60px; /* Account for hamburger menu */
+    }
+    
+    .container9302 {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
     .profile-overview {
-    width: 90%;
-    margin: 10px auto;
-  }
-  .form-group5656 {
-    flex: 1 1 100%;
-    /* Each item takes full width on smaller screens */
-  }
+        width: 95%;
+        margin: 10px auto;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .form-group5656 {
+        flex: 1 1 100%;
+    }
 
-  .submit-button5656 {
-    width: 100%;
-    /* Button takes full width on smaller screens */
-  }
+    .submit-button5656 {
+        width: 100%;
+    }
 
-  .input789,
-  .input5656,
-  select {
-    width: calc(100% - 10px);
-    /* Inputs take full width with 10px less for padding */
-  }
+    .input789,
+    .input5656,
+    select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .age-box {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .age-box > div {
+        width: 100%;
+    }
+    
+    .recent-appointments {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 350px;
+        margin-bottom: 15px;
+    }
 }
 
 /* ___________________________________recents _______________________________________ */

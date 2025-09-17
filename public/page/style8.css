@@ -390,21 +390,109 @@ select {
     
   }
   
-  /* Responsive styles */
   @media screen and (max-width: 768px) {
+    .main-dashboard {
+        flex-direction: column;
+    }
+    
+    .content-box9302 {
+        width: 100% !important;
+        padding: 10px;
+        margin-top: 60px;
+        display: flex !important;
+    }
+    
+    .container9302 {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
     .container1223 {
-      flex-direction: column;
-      align-items: center; /* Center items horizontally */
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
     }
-  
+
     .sidebar {
-      width: 100%;
-      text-align: center;
-      padding: 10px;
+        width: 100%;
+        text-align: left;
+        padding: 15px;
+        order: 1;
     }
-  
+    
+    .sidebar ul {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .sidebar li {
+        margin-bottom: 0;
+        min-width: max-content;
+    }
+    
+    .sidebar a {
+        padding: 8px 15px;
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+
     .content {
-      padding: 10px;
+        padding: 15px;
+        order: 2;
     }
-  }
+    
+    .content h2 {
+        font-size: 1.5rem;
+    }
+    
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    select {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    button[type="submit"] {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    #help ul li a {
+        font-size: 0.9rem;
+    }
+    
+    .profile-overview {
+        width: 95%;
+        margin: 10px auto;
+        grid-template-columns: 1fr;
+    }
+    
+    .form-group5656 {
+        flex: 1 1 100%;
+    }
+
+    .submit-button5656 {
+        width: 100%;
+    }
+
+    .input789,
+    .input5656,
+    select {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .recent-appointments {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+    }
+}
   

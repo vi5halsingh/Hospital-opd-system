@@ -33,6 +33,10 @@
         </div>
 
         <div class="content-area">
+            <div class="hamburger">
+                <i class="fas fa-bars close"></i>
+                <i class="fa-solid fa-xmark open" style="display: none;"></i>
+            </div>
             <!-- Patient Records Section -->
             <div class="sidebar-content" id="content3">
                 <div class="search-container">
@@ -41,7 +45,8 @@
                 </div>
                 <div class="patient-record">
                     <h1>Patient Records</h1>
-                    <table>
+                    <div class="table-responsive">
+                        <table>
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -74,7 +79,8 @@
                                 </tr>
                             <% } %>
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

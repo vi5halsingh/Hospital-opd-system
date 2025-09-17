@@ -198,22 +198,48 @@ select {
 
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
+    .main-dashboard {
+        flex-direction: column;
+    }
+    
+    .content-box9302 {
+        width: 100%;
+        padding: 10px;
+        margin-top: 60px;
+    }
+    
+    .container9302 {
+        max-width: 95%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
+    .profile-overview {
+        width: 95%;
+        margin: 10px auto;
+        grid-template-columns: 1fr;
+    }
+    
     .form-group5656 {
         flex: 1 1 100%;
-        /* Each item takes full width on smaller screens */
     }
 
     .submit-button5656 {
         width: 100%;
-        /* Button takes full width on smaller screens */
     }
 
     .input789,
     .input5656,
     select {
-        width: calc(100% - 10px);
-        /* Inputs take full width with 10px less for padding */
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .age-box {
+        flex-direction: column;
+        gap: 15px;
     }
 }
 /* ___________________________________recents _______________________________________ */

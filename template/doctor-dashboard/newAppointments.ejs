@@ -26,6 +26,10 @@
         </div>
 
         <div class="content-area">
+            <div class="hamburger">
+                <i class="fas fa-bars close"></i>
+                <i class="fa-solid fa-xmark open" style="display: none;"></i>
+            </div>
             <div class="sidebar-content" id="content2">
                <div class="search-container">
                    <input type="text" id="searchInput" onkeyup="searchAppointment()" placeholder="Search appointments...">
@@ -33,7 +37,8 @@
                 </div>
                <div class="profile-appointment-list">
                    <h1>New Appointments</h1>
-                   <table>
+                   <div class="table-container">
+                       <table>
                        <thead>
                            <tr>
                             <th>Name</th>
@@ -66,11 +71,12 @@
                             <% }) %>
                         <% } else { %>
                         <tr>
-                            <td colspan="4">No new appointments found.</td>
+                            <td colspan="7">No new appointments found.</td>
                         </tr>
                         <% } %>
                      </tbody>
                     </table>
+                   </div>
                 </div>
             </div>
         </div>
@@ -144,6 +150,8 @@ async function updateAppointmentStatus(element, newStatus) {
     }
 }
 </script>
+
+
 <script src="/doctors/admin.js"></script>
 </body>
 </html>

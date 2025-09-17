@@ -222,24 +222,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const sidebar = document.querySelector('.menu');
-    const contentArea = document.querySelector('.content-area');
     const closedMenu = document.querySelector('.close');
     const openedMenu = document.querySelector('.open');
 
     if (hamburger && sidebar) {
         hamburger.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevents the content area click from firing
+            event.stopPropagation();
             
             if (sidebar.classList.contains('active')) {
-                // When sidebar is open and we want to close it
                 closedMenu.style.display = 'block';
                 openedMenu.style.display = 'none';
                 sidebar.classList.remove('active');
             } else {
-                // When sidebar is closed and we want to open it
                 closedMenu.style.display = 'none';
                 openedMenu.style.display = 'block';
                 sidebar.classList.add('active');
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
+                if (sidebar.classList.contains('active')) {
+                    closedMenu.style.display = 'block';
+                    openedMenu.style.display = 'none';
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+        
+        // Close menu on window resize if it's a larger screen
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+                closedMenu.style.display = 'block';
+                openedMenu.style.display = 'none';
             }
         });
     }

@@ -132,30 +132,61 @@ document.getElementById('logout')?.addEventListener('click', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Admin.js loaded and DOM ready');
+    
     const hamburger = document.querySelector('.hamburger');
     const sidebar = document.querySelector('.sidebar');
-    const contentArea = document.querySelector('.content-area');
     const closedMenu = document.querySelector('.close');
     const openedMenu = document.querySelector('.open');
 
+    console.log('Hamburger elements found:', {
+        hamburger: !!hamburger,
+        sidebar: !!sidebar,
+        closedMenu: !!closedMenu,
+        openedMenu: !!openedMenu
+    });
+
     if (hamburger && sidebar) {
         hamburger.addEventListener('click', function(event) {
-            event.stopPropagation(); // Prevents the content area click from firing
+            console.log('Hamburger clicked');
+            event.stopPropagation();
             
             if (sidebar.classList.contains('active')) {
-                // When sidebar is open and we want to close it
-                closedMenu.style.display = 'block';
-                openedMenu.style.display = 'none';
+                console.log('Closing sidebar');
+                if (closedMenu) closedMenu.style.display = 'block';
+                if (openedMenu) openedMenu.style.display = 'none';
                 sidebar.classList.remove('active');
             } else {
-                // When sidebar is closed and we want to open it
-                closedMenu.style.display = 'none';
-                openedMenu.style.display = 'block';
+                console.log('Opening sidebar');
+                if (closedMenu) closedMenu.style.display = 'none';
+                if (openedMenu) openedMenu.style.display = 'block';
                 sidebar.classList.add('active');
             }
         });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!sidebar.contains(event.target) && !hamburger.contains(event.target)) {
+                if (sidebar.classList.contains('active')) {
+                    if (closedMenu) closedMenu.style.display = 'block';
+                    if (openedMenu) openedMenu.style.display = 'none';
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+        
+        // Close menu on window resize if it's a larger screen
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('active');
+                if (closedMenu && openedMenu) {
+                    closedMenu.style.display = 'block';
+                    openedMenu.style.display = 'none';
+                }
+            }
+        });
+    } else {
+        console.error('Hamburger menu elements not found');
     }
-})
-
-    
+});
 
